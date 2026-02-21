@@ -1,3 +1,13 @@
-# Decisions
+# DECISIONS
 
-Record of product decisions and rationale.
+---
+
+## YYYY-MM-DD — Decision Title
+
+**Decision:**  
+
+**Context:**  
+
+**Aligned With:**  
+
+**Impact:**  

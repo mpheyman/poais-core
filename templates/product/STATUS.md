@@ -1,3 +1,13 @@
-# Status
+# STATUS
 
-Current product status and health.
+## Week Of: YYYY-MM-DD
+
+### What Moved
+
+### What Changed
+
+### Blockers
+
+### Risks
+
+### Metric Snapshot

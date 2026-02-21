@@ -1,3 +1,4 @@
-# Risks
+# RISKS
 
-Identified risks and mitigation.
+| Risk | Severity | Owner | Mitigation |
+|------|----------|-------|------------|

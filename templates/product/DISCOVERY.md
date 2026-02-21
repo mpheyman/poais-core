@@ -1,3 +1,11 @@
-# Discovery
+# DISCOVERY
 
-Discovery findings and research.
+## Customer Insights
+
+## Operational Insights
+
+## Assumptions
+
+## Open Questions
+
+## Hypotheses
