@@ -1,51 +1,44 @@
-# POAIS
+# poais-core
 
-**POAIS (Product Operating AI System)** is a structured, markdown-first operating system for running product work with clarity, alignment, and AI-assisted orchestration.
+**poais-core** is the OS distribution of POAIS (Product Operating AI System): a structured, markdown-first operating system for product work. It is intended to be vendored into many product repos via **git subtree** and used with Cursor.
 
-It is designed to help product managers:
+- **Human-led orchestration** — you decide; AI assists with synthesis and drafting.
+- **Inputs are messy** (chat, email, meetings); **outputs are structured** (CONTEXT, PLAN, DECISIONS, STATUS, etc.).
+- POAIS does **not** replace execution tools (e.g. GitLab); it is the alignment and intent layer.
 
-- Keep cross-functional teams aligned
-- Preserve decision memory
-- Maintain visibility into active work
-- Generate stakeholder updates quickly
-- Reduce chaos from meetings, chats, and scattered documentation
+## What belongs in product repos
 
-POAIS does not replace execution tools (e.g., GitLab).
-It complements them by becoming the structured alignment layer for product intent.
+- Your **product data**: `products/<product>/`, optional `portfolio/`, `shared/`
+- **poais-core** as a subtree under `poais/` (rules, commands, skills, subagents, templates, tools)
+- A **synced** `.cursor/` at repo root (copied from `poais/.cursor/` by the sync script) so Cursor sees POAIS commands
 
----
+## Quickstart
 
-## Core Principle
+1. **Create a product repo** (or use an existing one).
+2. **Add poais-core via subtree** into `/poais`:
+   ```bash
+   git subtree add --prefix=poais <POAIS_CORE_REPO_URL> main --squash
+   ```
+3. **Run the sync script** to install `.cursor/` at repo root (required — Cursor only reads `.cursor/` at root):
+   - macOS/Linux / Git Bash: `bash poais/tools/sync-cursor-runtime.sh`
+   - Windows PowerShell: `powershell -ExecutionPolicy Bypass -File poais\tools\sync-cursor-runtime.ps1`
+4. **Copy the bootstrap skeleton** from `poais/bootstrap/product-repo-skeleton/` into your repo (e.g. `products/<product-name>/`), then rename `<product-name>` to your product.
+5. **Use POAIS in Cursor**: `/process`, `/distill`, `/align`, `/status` — see [.cursor/commands/README.md](.cursor/commands/README.md).
 
-Inputs are messy.  
-Outputs are structured.
+## Links
 
-Meetings, chats, and collaboration produce durable artifacts:
+| Resource | Description |
+|----------|-------------|
+| [INSTALL_SUBTREE.md](INSTALL_SUBTREE.md) | Exact subtree add/update commands and mandatory `.cursor` sync step |
+| [tools/sync-cursor-runtime.sh](tools/sync-cursor-runtime.sh) | Sync script (macOS/Linux/Git Bash) |
+| [tools/sync-cursor-runtime.ps1](tools/sync-cursor-runtime.ps1) | Sync script (Windows PowerShell) |
+| [.cursor/commands/README.md](.cursor/commands/README.md) | POAIS command reference |
+| [bootstrap/product-repo-skeleton/](bootstrap/product-repo-skeleton/) | Starter product folder structure |
 
-- CONTEXT
-- DISCOVERY
-- PLAN
-- EXECUTION
-- DECISIONS
-- RISKS
-- ROADMAP
-- STATUS
+## Repo layout (this distribution)
 
-AI assists in drafting, summarizing, and aligning — but humans orchestrate.
-
----
-
-## Who This Is For
-
-- PMs running cross-functional product teams
-- Organizations needing better visibility and alignment
-- Teams building AI-assisted workflows
-
----
-
-## What This Is Not
-
-- A replacement for your ticket tracker
-- A rigid stage-gate system
-- A documentation compliance engine
-- A heavy bureaucracy layer
+- **.cursor/** — Rules, commands, skills, subagents (source for sync; Cursor reads from repo root `.cursor/` in product repos)
+- **templates/** — Product/feature/meeting doc templates
+- **tools/** — Sync scripts for copying `.cursor/` to product repo root
+- **bootstrap/** — Product-repo skeleton to copy into new repos
+- **archive/** — Archived product-instance content (not part of the distribution)
