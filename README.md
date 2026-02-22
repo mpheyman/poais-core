@@ -14,17 +14,40 @@
 
 ## Quickstart
 
-### Initialize a new product repo (recommended)
+### One-command initialization (recommended)
 
-1. **Create a product repo** (or use an existing one). If the repo is empty, add an initial commit so subtree can run.
-2. **Run poais-init** with the poais-core repo URL. It will add the subtree (if `poais/` is missing), sync `.cursor/`, and create `product/` with a safe copy of the scaffold.
-   - **macOS/Linux / Git Bash:**  
-     If `poais/` does not exist yet: `git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash`  
-     Then: `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
-   - **Windows PowerShell:**  
-     If `poais\` does not exist yet: `git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash`  
-     Then: `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
-3. **Use POAIS in Cursor**: `/process`, `/distill`, `/align`, `/status` — see [.cursor/commands/README.md](.cursor/commands/README.md).
+From a **brand-new product repo** with at least one initial commit (required for `git subtree`):
+
+**Mac/Linux / Git Bash:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.sh | bash -s -- https://github.com/mpheyman/poais-core.git
+```
+
+**Windows PowerShell:**
+
+```powershell
+$env:POAIS_CORE_REPO_URL = 'https://github.com/mpheyman/poais-core.git'; irm https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.ps1 | iex
+```
+
+*(Replace `mpheyman` with your GitHub org or fork if using a different poais-core repo.)*
+
+If the repo has no commits yet, create one first:
+
+```bash
+echo "# myproduct" > README.md
+git add README.md
+git commit -m "Initial commit"
+```
+
+Then run the one-command init above. After it completes: **open the repo in Cursor**, create e.g. `product/INPUTS/YYYY-MM-DD-notes.md`, and run **`/process product/INPUTS/<your-file>.md`**. See [.cursor/commands/README.md](.cursor/commands/README.md) for `/distill`, `/align`, `/status`.
+
+### Initialize using local poais (legacy)
+
+If you already have `poais/` (e.g. from a previous subtree add):
+
+- **macOS/Linux:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
+- **Windows:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
 
 ### Upgrade poais-core in an existing product repo
 

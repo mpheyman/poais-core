@@ -4,19 +4,40 @@ Use these steps in a **product repo**. Repo: **https://github.com/mpheyman/poais
 
 ## Golden path: init once, upgrade as needed
 
-### Initialize a new product repo (recommended)
+### One-command initialization (recommended)
 
-From your product repo root. If the repo is empty, add an initial commit first.
+From a **brand-new product repo** with at least one initial commit (required for `git subtree`):
 
-1. **Add poais-core** (one-time, so the init script is available):
-   ```bash
-   git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash
-   ```
-2. **Run poais-init** (syncs `.cursor/`, creates `product/` with scaffold, writes `POAIS_LOCK.json`):
-   - **macOS/Linux / Git Bash:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
-   - **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
+**Mac/Linux / Git Bash:**
 
-If `poais/` already exists, you can run init without the URL (it will only sync and ensure workspace/lock are in place).
+```bash
+curl -fsSL https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.sh | bash -s -- https://github.com/mpheyman/poais-core.git
+```
+
+**Windows PowerShell:**
+
+```powershell
+$env:POAIS_CORE_REPO_URL = 'https://github.com/mpheyman/poais-core.git'; irm https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.ps1 | iex
+```
+
+*(Replace `mpheyman` with your GitHub org or fork if using a different poais-core repo.)*
+
+**Requirement:** The repo must have at least one commit. If not:
+
+```bash
+echo "# myproduct" > README.md
+git add README.md
+git commit -m "Initial commit"
+```
+
+Then run the one-command init. **After init:** open the repo in Cursor and run e.g. `/process product/INPUTS/YYYY-MM-DD-notes.md`.
+
+### Initialize using local poais (legacy)
+
+If you already have `poais/` in the repo:
+
+- **macOS/Linux:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
+- **Windows:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
 
 ### Upgrade poais-core in an existing product repo
 

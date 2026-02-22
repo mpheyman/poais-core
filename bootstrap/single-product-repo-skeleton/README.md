@@ -4,7 +4,9 @@ Use this scaffold to bootstrap a **one-product-per-repo** workspace. The product
 
 ## Recommended: use poais-init
 
-From your product repo root (after adding poais-core as a subtree under `poais/`), run:
+**From an empty repo (one command):** see [README](https://github.com/mpheyman/poais-core#quickstart) — `curl -fsSL ... | bash -s -- <repo-url>` (Mac/Linux) or set `$env:POAIS_CORE_REPO_URL` and `irm ... | iex` (Windows).
+
+From your product repo root when `poais/` already exists, run:
 
 - **macOS/Linux / Git Bash:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
 - **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`

@@ -1,17 +1,26 @@
 #!/usr/bin/env bash
-# Initialize a product repo to use POAIS. Run from product repo root.
-# Usage: bash poais/tools/poais-init.sh [POAIS_CORE_REPO_URL]
-# If ./poais does not exist, URL is required.
+# Initialize a product repo to use POAIS.
+# Run from inside a product repo (any subdir); or via: curl -fsSL <RAW_URL> | bash -s -- <REPO_URL>
+# Usage: bash poais-init.sh [POAIS_CORE_REPO_URL]
+#        or: curl -fsSL https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.sh | bash -s -- https://github.com/mpheyman/poais-core.git
+# If ./poais does not exist, repo URL is required (arg or POAIS_CORE_REPO_URL env).
 set -euo pipefail
 
+echo "=== POAIS init ==="
+echo ""
+
+# Detect repo root (works when run locally or via curl | bash)
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || true
 if [[ -z "${REPO_ROOT:-}" ]]; then
-  echo "ERROR: Not in a git repository. Run this from the root of a product repo." >&2
+  echo "ERROR: Not in a git repository. Run this from inside a product repo (with at least one commit)." >&2
+  echo "  Create an initial commit if needed: echo '# myproduct' > README.md && git add README.md && git commit -m 'Initial commit'" >&2
   exit 1
 fi
 cd "$REPO_ROOT"
+echo "  Repo root: $REPO_ROOT"
+echo ""
 
-POAIS_CORE_REPO_URL="${1:-}"
+POAIS_CORE_REPO_URL="${1:-${POAIS_CORE_REPO_URL:-}}"
 POAIS_DIR="poais"
 SKELETON="${POAIS_DIR}/bootstrap/single-product-repo-skeleton"
 TEMPLATES="${POAIS_DIR}/templates/product"
@@ -21,23 +30,25 @@ REQUIRED_DIRS="INPUTS MEETINGS FEATURES"
 
 if [[ ! -d "$POAIS_DIR" ]]; then
   if [[ -z "$POAIS_CORE_REPO_URL" ]]; then
-    echo "ERROR: ./poais not found. Provide the poais-core repo URL:" >&2
-    echo "  bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git" >&2
+    echo "ERROR: ./poais not found and no repo URL given. Provide the poais-core repo URL as argument or set POAIS_CORE_REPO_URL." >&2
+    echo "  Example: curl -fsSL https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.sh | bash -s -- https://github.com/mpheyman/poais-core.git" >&2
     exit 1
   fi
-  echo "Adding poais-core via subtree..."
+  echo "=== Adding poais-core via subtree ==="
   git subtree add --prefix=poais "$POAIS_CORE_REPO_URL" main --squash
+  echo ""
 else
   if [[ -n "$POAIS_CORE_REPO_URL" ]]; then
-    echo "./poais exists; skipping subtree add. URL ignored."
+    echo "  ./poais exists; skipping subtree add."
   fi
 fi
 
-echo "Syncing Cursor runtime..."
+echo "=== Syncing Cursor runtime ==="
 bash "${POAIS_DIR}/tools/sync-cursor-runtime.sh"
+echo ""
 
 if [[ ! -d "$PRODUCT_DIR" ]]; then
-  echo "Creating workspace from scaffold (safe copy)..."
+  echo "=== Scaffolding product workspace (safe copy) ==="
   for item in "${SKELETON}"/*; do
     name="$(basename "$item")"
     if [[ -e "$name" ]]; then continue; fi
@@ -47,8 +58,11 @@ if [[ ! -d "$PRODUCT_DIR" ]]; then
       cp "$item" "$name"
     fi
   done
+  echo "  Created $PRODUCT_DIR/ from scaffold."
+  echo ""
 fi
 
+echo "  Ensuring required dirs and files..."
 mkdir -p "${PRODUCT_DIR}/INPUTS" "${PRODUCT_DIR}/MEETINGS" "${PRODUCT_DIR}/FEATURES"
 for f in $REQUIRED_FILES; do
   if [[ ! -f "${PRODUCT_DIR}/${f}" ]] && [[ -f "${TEMPLATES}/${f}" ]]; then
@@ -56,24 +70,25 @@ for f in $REQUIRED_FILES; do
     echo "  Added ${PRODUCT_DIR}/${f} from template"
   fi
 done
+echo ""
 
-# Best-effort commit hash for poais subtree
+# Best-effort commit hash (subtree has no .git; use last commit that touched poais/)
 POAIS_COMMIT=""
 if git rev-parse HEAD:"poais" >/dev/null 2>&1; then
   POAIS_COMMIT="$(git log -1 --format=%H -- poais/ 2>/dev/null)" || true
 fi
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%S 2>/dev/null)"
 
-# Use URL from lock if we don't have one (e.g. init re-run with poais already present)
+# URL from lock if we don't have one (e.g. init re-run with poais already present)
 if [[ -z "${POAIS_CORE_REPO_URL:-}" ]] && [[ -f "POAIS_LOCK.json" ]]; then
   if command -v jq >/dev/null 2>&1; then
     POAIS_CORE_REPO_URL="$(jq -r '.poais_core_repo_url // empty' POAIS_LOCK.json)"
   fi
 fi
 
+echo "=== Updating POAIS_LOCK.json ==="
 LOCK_FILE="POAIS_LOCK.json"
 if [[ -f "$LOCK_FILE" ]]; then
-  # Update existing lock (minimal merge: overwrite known fields)
   TMP="$(mktemp)"
   if command -v jq >/dev/null 2>&1; then
     jq --arg url "${POAIS_CORE_REPO_URL:-}" --arg commit "${POAIS_COMMIT}" --arg synced "$NOW" \
@@ -83,6 +98,7 @@ if [[ -f "$LOCK_FILE" ]]; then
     cat "$LOCK_FILE" | sed "s/\"poais_core_commit\": *\"[^\"]*\"/\"poais_core_commit\": \"${POAIS_COMMIT}\"/" \
       | sed "s/\"cursor_runtime_synced_at\": *\"[^\"]*\"/\"cursor_runtime_synced_at\": \"${NOW}\"/" > "$TMP" && mv "$TMP" "$LOCK_FILE"
   fi
+  echo "  Updated $LOCK_FILE"
 else
   cat <<EOF > "$LOCK_FILE"
 {
@@ -95,13 +111,15 @@ else
   "workspace_root": "product"
 }
 EOF
+  echo "  Created $LOCK_FILE"
 fi
-
 echo ""
-echo "SUCCESS: POAIS initialized."
+
+echo "=== SUCCESS: POAIS initialized ==="
 echo ""
 echo "Next steps:"
-echo "  1. Create an input file, e.g. ${PRODUCT_DIR}/INPUTS/$(date +%Y-%m-%d)-notes.md"
-echo "  2. In Cursor, run: /process ${PRODUCT_DIR}/INPUTS/<your-file>.md"
+echo "  1. Open this repo in Cursor."
+echo "  2. Create an input file, e.g.: ${PRODUCT_DIR}/INPUTS/$(date +%Y-%m-%d)-notes.md"
+echo "  3. Run: /process ${PRODUCT_DIR}/INPUTS/<your-file>.md"
 echo ""
 exit 0

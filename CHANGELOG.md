@@ -12,6 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.4] - 2026-02-22
+
+- One-command init: curl | bash and irm | iex from empty product repo; poais-init no longer requires poais/ to exist first.
+- poais-init hardened for remote execution: repo root via git rev-parse, step banners, POAIS_CORE_REPO_URL env fallback; safe scaffold copy.
+- README and INSTALL_SUBTREE: one-command init (recommended), initial-commit requirement, “open in Cursor then /process” next steps; legacy local-init kept.
+
+---
+
 ## [0.1.3] - 2026-02-22
 
 - poais-init, poais-upgrade, poais-doctor scripts (bash + PowerShell): init once, upgrade as needed, diagnose; safe copy, POAIS_LOCK.json, no Node/Python.
