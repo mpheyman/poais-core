@@ -12,6 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.2] - 2026-02-22
+
+- Rule: dates and deadlines (25-dates-and-deadlines.md) — ISO dates, ambiguity handling, deadline taxonomy (Confirmed/Requested/Target/Constraint), where to record (PLAN, RISKS, DECISIONS). Formatting rule 20 references it.
+- Bootstrap: single-product skeleton now includes INPUTS/, MEETINGS/, FEATURES/ with .gitkeep so folders are always in git.
+- /process resilience: if target file or parent dir is missing, create them; use pasted chat content if provided, else ask user to paste and rerun. Examples use `product/INPUTS/YYYY-MM-DD-<slug>.md`.
+
+---
+
 ## [0.1.1] - 2026-02-22
 
 - Single-product-per-repo model: default bootstrap is `bootstrap/single-product-repo-skeleton/` with workspace at `product/` (not `products/<name>/`).

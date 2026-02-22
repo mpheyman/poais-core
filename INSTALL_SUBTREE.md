@@ -62,4 +62,4 @@ Then run the sync script again (same as above) so root `.cursor/` matches the up
 | Sync .cursor to root | `bash poais/tools/sync-cursor-runtime.sh` (or `.ps1` on Windows) |
 | Update poais-core | `git subtree pull --prefix=poais <POAIS_CORE_REPO_URL> main --squash` then re-run sync script |
 
-Cursor commands take paths under `product/` (e.g. `/process product/INPUTS/notes.md`, `/align product`, `/status product 2026-02-22`). If the path does not exist, the command fails with a clear message.
+Cursor commands take paths under `product/` (e.g. `/process product/INPUTS/YYYY-MM-DD-<slug>.md`, `/align product`, `/status product 2026-02-22`). For `/process`, missing paths are created (parent dir and file); the user can paste content in chat or into the new file and rerun.

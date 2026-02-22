@@ -15,7 +15,7 @@ Commands are the user-facing layer. Each command delegates to a subagent and ret
 ## Syntax examples
 
 ```text
-/process product/INPUTS/customer-feedback.md
+/process product/INPUTS/YYYY-MM-DD-<slug>.md
 /distill product/MEETINGS/2025-02-20-sprint.md
 /align product
 /status product
@@ -24,7 +24,7 @@ Commands are the user-facing layer. Each command delegates to a subagent and ret
 /release 0.2.0
 ```
 
-Commands take a user-provided path (except `/release`, which is for the poais-core repo). If the path does not exist, the command fails with a clear message. The folder name need not be `product`; it is the default example only.
+Commands take a user-provided path (except `/release`, which is for the poais-core repo). For `/process`, if the path does not exist, the command creates the parent directory and file, then uses pasted content if provided or asks the user to paste and rerun. The folder name need not be `product`; it is the default example only.
 
 ## Short descriptions
 
