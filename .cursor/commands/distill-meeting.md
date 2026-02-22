@@ -1,9 +1,9 @@
-# Command: /distill
+# Command: /distill-meeting
 
 ## Syntax
 
 ```
-/distill <path-to-meeting-file>
+/distill-meeting <path-to-meeting-file>
 ```
 
 ## Expected arguments
@@ -24,12 +24,12 @@ Delegates to the **meeting-distiller** subagent.
 ## Output format
 
 - **Summary** — meeting summary (bullets).
-- **Decisions** — extracted decision entries (explicit only in DECISIONS; implied marked “Needs confirmation”).
+- **Decisions** — extracted decision entries (explicit only in DECISIONS; implied marked "Needs confirmation").
 - **Actions** — action items with owners (or TBD).
 - **Files updated** — paths modified.
 
 ## Guardrails
 
 - Do not treat brainstorming as decisions.
-- If meeting lacks clarity, include a “Needs follow-up” section.
+- If meeting lacks clarity, include a "Needs follow-up" section.
 - Do not duplicate existing decision entries on rerun.

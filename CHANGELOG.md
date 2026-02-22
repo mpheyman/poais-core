@@ -12,6 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.5] - 2026-02-22
+
+- Rule: no-code-generation.md — POAIS repos specs/artifacts only; redirect "build/implement" requests to product docs (FEATURES, PLAN, EXECUTION, RISKS) and implementation repo; recommend Implementation Repositories in CONTEXT.md.
+- GETTING_STARTED.md and doc updates (README, INSTALL_SUBTREE, bootstrap README, commands README).
+- Command rename: distill → distill-meeting; doctor script fixes.
+
+---
+
 ## [0.1.4] - 2026-02-22
 
 - One-command init: curl | bash and irm | iex from empty product repo; poais-init no longer requires poais/ to exist first.

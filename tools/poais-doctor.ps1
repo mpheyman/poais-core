@@ -97,7 +97,7 @@ if (-not (Test-Path -LiteralPath $LockFile -PathType Leaf)) {
 
 Write-Host ""
 if ($Status -eq 0) {
-    Write-Host "All checks passed. You can use /process, /distill, /align, /status in Cursor." -ForegroundColor Green
+    Write-Host "All checks passed. You can use /process, /distill-meeting, /align, /status in Cursor." -ForegroundColor Green
     exit 0
 } else {
     Write-Host "Apply the fixes above, then re-run doctor or run:"

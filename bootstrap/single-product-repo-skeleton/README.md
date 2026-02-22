@@ -28,4 +28,4 @@ Then run the Cursor sync script: `bash poais/tools/sync-cursor-runtime.sh` (or `
 1. Create an input file, e.g. `product/INPUTS/2026-02-22-notes.md`.
 2. In Cursor, run: `/process product/INPUTS/2026-02-22-notes.md`
 
-See `poais/.cursor/commands/README.md` for `/distill`, `/align`, and `/status` syntax.
+See `poais/.cursor/commands/README.md` for `/distill-meeting`, `/align`, and `/status` syntax. For full PM workflow (new product, feature, or roadmap), see `poais/GETTING_STARTED.md`.

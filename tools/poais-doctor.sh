@@ -92,7 +92,7 @@ fi
 
 echo ""
 if [[ $STATUS -eq 0 ]]; then
-  echo "All checks passed. You can use /process, /distill, /align, /status in Cursor."
+  echo "All checks passed. You can use /process, /distill-meeting, /align, /status in Cursor."
   exit 0
 else
   echo "Apply the fixes above, then re-run doctor or run:"

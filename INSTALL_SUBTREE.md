@@ -30,7 +30,7 @@ git add README.md
 git commit -m "Initial commit"
 ```
 
-Then run the one-command init. **After init:** open the repo in Cursor and run e.g. `/process product/INPUTS/YYYY-MM-DD-notes.md`.
+Then run the one-command init. **After init:** open the repo in Cursor and run e.g. `/process product/INPUTS/YYYY-MM-DD-notes.md`. See [GETTING_STARTED.md](GETTING_STARTED.md) for PM workflow.
 
 ### Initialize using local poais (legacy)
 

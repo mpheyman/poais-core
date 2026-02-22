@@ -40,7 +40,7 @@ git add README.md
 git commit -m "Initial commit"
 ```
 
-Then run the one-command init above. After it completes: **open the repo in Cursor**, create e.g. `product/INPUTS/YYYY-MM-DD-notes.md`, and run **`/process product/INPUTS/<your-file>.md`**. See [.cursor/commands/README.md](.cursor/commands/README.md) for `/distill`, `/align`, `/status`.
+Then run the one-command init above. After it completes: **open the repo in Cursor**, create e.g. `product/INPUTS/YYYY-MM-DD-notes.md`, and run **`/process product/INPUTS/<your-file>.md`**. Once setup is complete, see **[GETTING_STARTED.md](GETTING_STARTED.md)** for where to start and the expected workflow (new product, new feature, or quarterly roadmap). See [.cursor/commands/README.md](.cursor/commands/README.md) for `/distill-meeting`, `/align`, `/status`.
 
 ### Initialize using local poais (legacy)
 
