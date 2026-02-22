@@ -12,9 +12,18 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.6] - 2026-02-22
+
+- Meeting workflow: INPUTS = single source for all raw input (including meeting jottings); /distill-meeting refines and catalogues to MEETINGS/; /process on catalogued MEETINGS file updates artifacts.
+- /distill-meeting and meeting-distiller: standardized meeting doc template; prompt PM for missing attendees/time/agenda when not deducible (proceed without); write refined record to MEETINGS/.
+- Rule 05-no-code-generation (numbered to match existing rules); release command requires version + short description in every release commit.
+- Docs: GETTING_STARTED, README, commands README, process, distill-meeting, meeting-distiller, bootstrap README updated for new flow.
+
+---
+
 ## [0.1.5] - 2026-02-22
 
-- Rule: no-code-generation.md — POAIS repos specs/artifacts only; redirect "build/implement" requests to product docs (FEATURES, PLAN, EXECUTION, RISKS) and implementation repo; recommend Implementation Repositories in CONTEXT.md.
+- Rule: 05-no-code-generation.md — POAIS repos specs/artifacts only; redirect "build/implement" requests to product docs (FEATURES, PLAN, EXECUTION, RISKS) and implementation repo; recommend Implementation Repositories in CONTEXT.md.
 - GETTING_STARTED.md and doc updates (README, INSTALL_SUBTREE, bootstrap README, commands README).
 - Command rename: distill → distill-meeting; doctor script fixes.
 

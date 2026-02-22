@@ -26,6 +26,6 @@ Then run the Cursor sync script: `bash poais/tools/sync-cursor-runtime.sh` (or `
 ## Example first run
 
 1. Create an input file, e.g. `product/INPUTS/2026-02-22-notes.md`.
-2. In Cursor, run: `/process product/INPUTS/2026-02-22-notes.md`
+2. In Cursor, run: `/process product/INPUTS/2026-02-22-notes.md`. For meeting jottings, run `/distill-meeting` on the INPUTS file (refines and catalogues to MEETINGS/), then `/process` on the MEETINGS file.
 
 See `poais/.cursor/commands/README.md` for `/distill-meeting`, `/align`, and `/status` syntax. For full PM workflow (new product, feature, or roadmap), see `poais/GETTING_STARTED.md`.

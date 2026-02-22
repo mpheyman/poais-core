@@ -16,8 +16,8 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 | **DISCOVERY** | Customer/operational insights, assumptions, open questions, hypotheses. |
 | **RISKS** | Known risks; update when scope or schedule risk emerges. |
 | **ROADMAP** | Current quarter, next, themes. |
-| **INPUTS/** | Raw input (notes, email, doc paste). Run `/process` on a file here. |
-| **MEETINGS/** | Meeting notes/transcripts. Run `/distill-meeting` on a file here. |
+| **INPUTS/** | **Single source for all raw input** — notes, email, doc paste, and meeting jottings. Create a blank .md here, jot notes, then run `/process` (general input) or `/distill-meeting` (meeting notes). |
+| **MEETINGS/** | **Catalogued meeting records** — refined, formatted output of `/distill-meeting`. Run `/process` on a file here to extract key data and update artifacts. |
 | **FEATURES/** | Feature-level docs if you track them. |
 
 ---
@@ -30,13 +30,13 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 2. **Add raw input** — Create `product/INPUTS/YYYY-MM-DD-<slug>.md` with a brief, email, or doc paste (or use `/process` and paste content in chat when prompted).
 3. **Run `/process`** on that file — You get a summary and proposed updates to DISCOVERY, PLAN, DECISIONS. Review and approve edits.
 4. **Tighten alignment** — Run `/align product` to check CONTEXT, PLAN, EXECUTION, DECISIONS for consistency.
-5. **Ongoing** — Keep CONTEXT and PLAN in sync; feed new input via INPUTS + `/process` or MEETINGS + `/distill-meeting`.
+5. **Ongoing** — Keep CONTEXT and PLAN in sync; feed new input via INPUTS + `/process`, or meeting jottings in INPUTS + `/distill-meeting` (refines and catalogues to MEETINGS), then `/process` on the MEETINGS file to update artifacts.
 
 ### New feature to add
 
 1. **Assume CONTEXT and PLAN exist** — Your product already has them.
-2. **Add input** — Put a spec, request, or meeting notes in `product/INPUTS/` or `product/MEETINGS/`.
-3. **Run `/process` or `/distill-meeting`** — Review proposed updates to PLAN, EXECUTION, DECISIONS, RISKS.
+2. **Add input** — Put a spec, request, or meeting jottings in `product/INPUTS/`.
+3. **Run `/process`** on general input, or **`/distill-meeting`** on meeting notes (refines and catalogues to MEETINGS), then **`/process`** on the catalogued MEETINGS file — Review proposed updates to PLAN, EXECUTION, DECISIONS, RISKS.
 4. **Run `/align product`** — Keep artifacts consistent.
 5. **Optional** — Use `product/FEATURES/` for feature-level docs if you track them.
 
@@ -45,7 +45,7 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 1. **Focus on PLAN and ROADMAP** — Phasing, scope, non-goals; current quarter and themes.
 2. **Add inputs** — Strategy doc, leadership ask, or constraints into `product/INPUTS/YYYY-MM-DD-<slug>.md`.
 3. **Run `/process`** — Extract milestones, decisions, and risks into PLAN, DECISIONS, RISKS.
-4. **Distill key meetings** — Put meeting notes in `product/MEETINGS/` and run `/distill-meeting` to capture decisions and actions.
+4. **Distill key meetings** — Put meeting jottings in `product/INPUTS/`, run `/distill-meeting` to refine and catalogue to MEETINGS, then run `/process` on the catalogued file to capture decisions and actions in artifacts.
 5. **Run `/align product`** — Ensure ROADMAP and PLAN stay aligned.
 6. **Dates** — Use ISO dates (YYYY-MM-DD) and the deadline taxonomy (Confirmed / Requested / Target / Constraint). See [.cursor/rules/25-dates-and-deadlines.md](.cursor/rules/25-dates-and-deadlines.md).
 
@@ -53,8 +53,8 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 
 ## Expected workflow loop
 
-- **Capture** — Add raw input to INPUTS or meeting notes to MEETINGS.
-- **Process** — Run `/process` or `/distill-meeting` on the file; review and approve proposed edits to DISCOVERY, PLAN, DECISIONS, RISKS, EXECUTION.
+- **Capture** — Add all raw input (including meeting jottings) to INPUTS.
+- **Process** — Run `/process` on general input; for meetings, run `/distill-meeting` on the INPUTS file (refines and catalogues to MEETINGS), then `/process` on the MEETINGS file; review and approve proposed edits to DISCOVERY, PLAN, DECISIONS, RISKS, EXECUTION.
 - **Keep in sync** — Update CONTEXT, PLAN, DECISIONS, STATUS as reality changes (see [STANDARDS.md](STANDARDS.md): POAIS reflects reality).
 - **Align** — Run `/align product` periodically to catch drift.
 - **Communicate** — Run `/status product` (or `/status product YYYY-MM-DD`) to draft stakeholder updates and update STATUS.md.
@@ -66,7 +66,8 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 | Command | Use |
 |---------|-----|
 | `/process product/INPUTS/YYYY-MM-DD-<slug>.md` | Turn one input file into summary + proposed updates to DISCOVERY, PLAN, DECISIONS, RISKS, EXECUTION. |
-| `/distill-meeting product/MEETINGS/YYYY-MM-DD-<slug>.md` | Turn a meeting file into summary + decisions, actions, risks; minimal artifact updates. |
+| `/process product/MEETINGS/YYYY-MM-DD-<slug>.md` | Run on a **catalogued meeting** (output of `/distill-meeting`) to extract key data and update artifacts. |
+| `/distill-meeting product/INPUTS/YYYY-MM-DD-<slug>.md` | Refine raw meeting jottings into a formatted meeting record; catalogue to MEETINGS/; then run `/process` on that file to update artifacts. |
 | `/align product` | Compare CONTEXT, PLAN, EXECUTION, DECISIONS (and optional ROADMAP); report drift and suggest fixes. |
 | `/status product` or `/status product YYYY-MM-DD` | Compose status drafts and update STATUS.md. |
 
@@ -80,11 +81,13 @@ Full syntax and options: [.cursor/commands/README.md](.cursor/commands/README.md
 flowchart LR
   subgraph capture [Capture]
     INPUTS[INPUTS]
-    MEETINGS[MEETINGS]
   end
   subgraph commands [Commands]
     process["/process"]
     distillMeeting["/distill-meeting"]
+  end
+  subgraph catalogue [Catalogue]
+    MEETINGS[MEETINGS]
   end
   subgraph artifacts [Artifacts]
     CONTEXT[CONTEXT]
@@ -95,12 +98,14 @@ flowchart LR
     STATUS[STATUS]
   end
   INPUTS --> process
-  MEETINGS --> distillMeeting
+  INPUTS --> distillMeeting
+  distillMeeting --> MEETINGS
+  MEETINGS --> process
   process --> CONTEXT
   process --> PLAN
   process --> DECISIONS
-  distillMeeting --> DECISIONS
-  distillMeeting --> EXECUTION
+  process --> RISKS
+  process --> EXECUTION
   artifacts --> align["/align"]
   artifacts --> status["/status"]
 ```

@@ -17,7 +17,7 @@ If the provided `<path-to-input-file>` does not exist:
 
 ## Expected arguments
 
-- **path-to-input-file** — Path to a file containing messy input (e.g. `product/INPUTS/YYYY-MM-DD-<slug>.md`, or a path to a meeting doc, email paste, or chat export). Can be relative to repo root or absolute.
+- **path-to-input-file** — Path to a file containing messy input (e.g. `product/INPUTS/YYYY-MM-DD-<slug>.md`, or a path to a meeting doc, email paste, or chat export). Can be relative to repo root or absolute. **Catalogued meeting records** in `product/MEETINGS/` (output of `/distill-meeting`) are ideal to run through `/process` to extract key data and update DECISIONS, PLAN, EXECUTION, RISKS.
 
 ## Delegation
 
