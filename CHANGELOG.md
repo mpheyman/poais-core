@@ -1,10 +1,26 @@
 # Changelog
 
+Versioning follows [Semantic Versioning](https://semver.org/). The canonical version is in [VERSION](VERSION). Product repos can check `poais/VERSION` after a subtree pull to see what they have and avoid drift.
+
+**Before every push to main:** promote "Unreleased" to a new version below, set the release date, update [VERSION](VERSION), then commit and push.
+
+---
+
 ## Unreleased
 
-- (Changes in development.)
+- (none)
 
-## 0.1.0
+---
+
+## [0.1.1] - 2026-02-22
+
+- Single-product-per-repo model: default bootstrap is `bootstrap/single-product-repo-skeleton/` with workspace at `product/` (not `products/<name>/`).
+- Legacy monorepo bootstrap moved to `archive/bootstrap-legacy/product-repo-skeleton/`.
+- Docs and command examples updated to use `product/`; commands take user-provided path and fail clearly if path does not exist.
+
+---
+
+## [0.1.0] - (initial; release date not tracked)
 
 - Initial poais-core distribution layout.
 - `.cursor/` (rules, commands, skills, subagents) at repo root.
