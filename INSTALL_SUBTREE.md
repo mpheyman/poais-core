@@ -1,65 +1,50 @@
 # Installing and updating poais-core via git subtree
 
-Use these steps in a **product repo** to add or update poais-core. Replace `<POAIS_CORE_REPO_URL>` with the actual repo URL (e.g. `https://github.com/yourorg/poais-core.git` or `git@github.com:yourorg/poais-core.git`).
+Use these steps in a **product repo**. Repo: **https://github.com/mpheyman/poais-core**
 
-## Initial add
+## Golden path: init once, upgrade as needed
 
-From your product repo root:
+### Initialize a new product repo (recommended)
 
-```bash
-git subtree add --prefix=poais <POAIS_CORE_REPO_URL> main --squash
-```
+From your product repo root. If the repo is empty, add an initial commit first.
 
-This creates a `poais/` directory containing the poais-core files (including `poais/.cursor/`, `poais/tools/`, `poais/templates/`, `poais/bootstrap/`, etc.).
+1. **Add poais-core** (one-time, so the init script is available):
+   ```bash
+   git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash
+   ```
+2. **Run poais-init** (syncs `.cursor/`, creates `product/` with scaffold, writes `POAIS_LOCK.json`):
+   - **macOS/Linux / Git Bash:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
+   - **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
 
-## Copy the workspace scaffold (recommended)
+If `poais/` already exists, you can run init without the URL (it will only sync and ensure workspace/lock are in place).
 
-From your product repo root, copy the single-product skeleton so you have a `product/` workspace:
+### Upgrade poais-core in an existing product repo
 
-```bash
-cp -R poais/bootstrap/single-product-repo-skeleton/* .
-```
+- Ensure working tree is clean (commit or stash).
+- **macOS/Linux / Git Bash:** `bash poais/tools/poais-upgrade.sh https://github.com/mpheyman/poais-core.git`  
+  *(URL optional if `POAIS_LOCK.json` exists.)*
+- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-upgrade.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
 
-You get `product/` with CONTEXT.md, PLAN.md, DECISIONS.md, STATUS.md, and INPUTS/, MEETINGS/, FEATURES/ folders. POAIS commands operate on paths like `product/INPUTS/...`, `product/MEETINGS/...`, or `product` for `/align` and `/status`.
+Upgrade runs `git subtree pull` and re-syncs `.cursor/` automatically. It does not overwrite your `product/` artifacts.
 
-## Sync Cursor runtime (mandatory)
+### Diagnose issues
 
-Cursor only reads `.cursor/` at the **repository root**. Because poais-core lives under `poais/`, you must copy `poais/.cursor/` to the root `.cursor/` after every add or pull. Use the provided scripts:
+- **macOS/Linux / Git Bash:** `bash poais/tools/poais-doctor.sh`
+- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-doctor.ps1`
 
-**macOS / Linux / Git Bash:**
+Doctor checks: git repo, `poais/`, `poais/.cursor`, root `.cursor/`, `product/`, required dirs (INPUTS, MEETINGS, FEATURES), required files, `POAIS_LOCK.json`. It prints OK/WARN/FAIL and exact fix commands.
 
-```bash
-bash poais/tools/sync-cursor-runtime.sh
-```
+---
 
-**Windows PowerShell:**
+## Manual steps (legacy)
 
-```powershell
-powershell -ExecutionPolicy Bypass -File poais\tools\sync-cursor-runtime.ps1
-```
-
-Run from the **product repo root**. The script verifies `poais/.cursor` exists, then replaces the root `.cursor/` with the contents of `poais/.cursor/`.
-
-- Treat root `.cursor/` as **generated/runtime** in product repos. Do not hand-edit it unless you are intentionally customizing; re-run the sync script after a subtree pull to restore the canonical set.
-- If you customize root `.cursor/`, be aware that the next sync will overwrite it.
-
-## Updating poais-core later
-
-From your product repo root:
-
-```bash
-git subtree pull --prefix=poais <POAIS_CORE_REPO_URL> main --squash
-```
-
-Then run the sync script again (same as above) so root `.cursor/` matches the updated poais-core. Check which version you have with `cat poais/VERSION` and compare to [CHANGELOG.md](CHANGELOG.md) in the poais-core repo.
-
-## Summary
+If you prefer not to use the scripts:
 
 | Step | Command / action |
 |------|------------------|
-| Add poais-core | `git subtree add --prefix=poais <POAIS_CORE_REPO_URL> main --squash` |
+| Add poais-core | `git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash` |
 | Copy workspace scaffold | `cp -R poais/bootstrap/single-product-repo-skeleton/* .` |
 | Sync .cursor to root | `bash poais/tools/sync-cursor-runtime.sh` (or `.ps1` on Windows) |
-| Update poais-core | `git subtree pull --prefix=poais <POAIS_CORE_REPO_URL> main --squash` then re-run sync script |
+| Update poais-core | `git subtree pull --prefix=poais https://github.com/mpheyman/poais-core.git main --squash` then re-run sync script |
 
 Cursor commands take paths under `product/` (e.g. `/process product/INPUTS/YYYY-MM-DD-<slug>.md`, `/align product`, `/status product 2026-02-22`). For `/process`, missing paths are created (parent dir and file); the user can paste content in chat or into the new file and rerun.

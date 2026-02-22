@@ -2,7 +2,16 @@
 
 Use this scaffold to bootstrap a **one-product-per-repo** workspace. The product lives at `product/` (not under `products/<name>/`).
 
-## Copy into your product repo
+## Recommended: use poais-init
+
+From your product repo root (after adding poais-core as a subtree under `poais/`), run:
+
+- **macOS/Linux / Git Bash:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
+- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
+
+Init syncs `.cursor/`, copies this scaffold into repo root (safe copy: does not overwrite existing files), ensures INPUTS/MEETINGS/FEATURES and required artifact files exist, and creates/updates `POAIS_LOCK.json`.
+
+## Legacy: manual copy
 
 From your product repo root (after adding poais-core as a subtree under `poais/`):
 
@@ -10,14 +19,7 @@ From your product repo root (after adding poais-core as a subtree under `poais/`
 cp -R poais/bootstrap/single-product-repo-skeleton/* .
 ```
 
-This creates `product/` at repo root with CONTEXT, PLAN, DECISIONS, STATUS, and the standard subfolders.
-
-## After subtree add or pull
-
-Run the `.cursor` sync script so Cursor sees POAIS commands:
-
-- **macOS/Linux / Git Bash:** `bash poais/tools/sync-cursor-runtime.sh`
-- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\sync-cursor-runtime.ps1`
+Then run the Cursor sync script: `bash poais/tools/sync-cursor-runtime.sh` (or `.ps1` on Windows).
 
 ## Example first run
 

@@ -14,20 +14,32 @@
 
 ## Quickstart
 
-1. **Create a product repo** (or use an existing one).
-2. **Add poais-core via subtree** into `poais/`:
-   ```bash
-   git subtree add --prefix=poais <POAIS_CORE_REPO_URL> main --squash
-   ```
-3. **Run the sync script** to install `.cursor/` at repo root (required — Cursor only reads `.cursor/` at root):
-   - macOS/Linux / Git Bash: `bash poais/tools/sync-cursor-runtime.sh`
-   - Windows PowerShell: `powershell -ExecutionPolicy Bypass -File poais\tools\sync-cursor-runtime.ps1`
-4. **Copy the bootstrap scaffold** into repo root:
-   ```bash
-   cp -R poais/bootstrap/single-product-repo-skeleton/* .
-   ```
-   This creates `product/` with the standard artifact files and INPUTS/MEETINGS/FEATURES folders.
-5. **Use POAIS in Cursor**: `/process`, `/distill`, `/align`, `/status` — see [.cursor/commands/README.md](.cursor/commands/README.md).
+### Initialize a new product repo (recommended)
+
+1. **Create a product repo** (or use an existing one). If the repo is empty, add an initial commit so subtree can run.
+2. **Run poais-init** with the poais-core repo URL. It will add the subtree (if `poais/` is missing), sync `.cursor/`, and create `product/` with a safe copy of the scaffold.
+   - **macOS/Linux / Git Bash:**  
+     If `poais/` does not exist yet: `git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash`  
+     Then: `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
+   - **Windows PowerShell:**  
+     If `poais\` does not exist yet: `git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash`  
+     Then: `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
+3. **Use POAIS in Cursor**: `/process`, `/distill`, `/align`, `/status` — see [.cursor/commands/README.md](.cursor/commands/README.md).
+
+### Upgrade poais-core in an existing product repo
+
+- Ensure your working tree is clean (commit or stash changes).
+- **macOS/Linux / Git Bash:** `bash poais/tools/poais-upgrade.sh https://github.com/mpheyman/poais-core.git`  
+  *(URL optional if `POAIS_LOCK.json` exists.)*
+- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-upgrade.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`  
+  *(Re-run `.cursor` sync is automatic as part of upgrade.)*
+
+### Diagnose issues
+
+- **macOS/Linux / Git Bash:** `bash poais/tools/poais-doctor.sh`
+- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-doctor.ps1`
+
+Doctor reports OK / WARN / FAIL and prints exact fix commands (sync, init, upgrade, or create missing files).
 
 ## Versioning
 
@@ -52,9 +64,16 @@ Compare with the [poais-core releases / CHANGELOG](CHANGELOG.md) to avoid drift.
 
 | Resource | Description |
 |----------|-------------|
+| [GitHub — mpheyman/poais-core](https://github.com/mpheyman/poais-core) | Repo root |
 | [VERSION](VERSION) | Current release version (single line) |
 | [CHANGELOG.md](CHANGELOG.md) | Release history and unreleased changes |
 | [INSTALL_SUBTREE.md](INSTALL_SUBTREE.md) | Subtree add/update and mandatory `.cursor` sync |
+| [tools/poais-init.sh](tools/poais-init.sh) | Init script (macOS/Linux/Git Bash) |
+| [tools/poais-init.ps1](tools/poais-init.ps1) | Init script (Windows PowerShell) |
+| [tools/poais-upgrade.sh](tools/poais-upgrade.sh) | Upgrade script (macOS/Linux/Git Bash) |
+| [tools/poais-upgrade.ps1](tools/poais-upgrade.ps1) | Upgrade script (Windows PowerShell) |
+| [tools/poais-doctor.sh](tools/poais-doctor.sh) | Diagnostics (macOS/Linux/Git Bash) |
+| [tools/poais-doctor.ps1](tools/poais-doctor.ps1) | Diagnostics (Windows PowerShell) |
 | [tools/sync-cursor-runtime.sh](tools/sync-cursor-runtime.sh) | Sync script (macOS/Linux/Git Bash) |
 | [tools/sync-cursor-runtime.ps1](tools/sync-cursor-runtime.ps1) | Sync script (Windows PowerShell) |
 | [.cursor/commands/README.md](.cursor/commands/README.md) | POAIS command reference |
@@ -66,6 +85,6 @@ Compare with the [poais-core releases / CHANGELOG](CHANGELOG.md) to avoid drift.
 - **CHANGELOG.md** — Release history; "Unreleased" is promoted to a version before each push to main
 - **.cursor/** — Rules, commands, skills, subagents (source for sync; Cursor reads from repo root `.cursor/` in product repos)
 - **templates/** — Product/feature/meeting doc templates
-- **tools/** — Sync scripts for copying `.cursor/` to product repo root
+- **tools/** — Init, upgrade, doctor, and sync scripts (no Node/Python required)
 - **bootstrap/** — Single-product scaffold to copy into new repos
 - **archive/** — Legacy or archived content (not part of the distribution)

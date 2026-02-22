@@ -1,6 +1,6 @@
 # POAIS Commands
 
-Commands are the user-facing layer. Each command delegates to a subagent and returns structured output.
+Commands are the user-facing layer. Each command delegates to a subagent and returns structured output. The default workspace root is `product/`.
 
 ## Available commands
 
@@ -25,6 +25,8 @@ Commands are the user-facing layer. Each command delegates to a subagent and ret
 ```
 
 Commands take a user-provided path (except `/release`, which is for the poais-core repo). For `/process`, if the path does not exist, the command creates the parent directory and file, then uses pasted content if provided or asks the user to paste and rerun. The folder name need not be `product`; it is the default example only.
+
+**Recommended first commands:** `/process product/INPUTS/...`, `/distill product/MEETINGS/...`, `/align product`, `/status product` (or `/status product YYYY-MM-DD`).
 
 ## Short descriptions
 

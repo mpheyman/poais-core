@@ -12,6 +12,15 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.3] - 2026-02-22
+
+- poais-init, poais-upgrade, poais-doctor scripts (bash + PowerShell): init once, upgrade as needed, diagnose; safe copy, POAIS_LOCK.json, no Node/Python.
+- Golden-path docs: README, INSTALL_SUBTREE, commands README, bootstrap README; manual steps kept as legacy.
+- Release command: when Unreleased is empty, populate bullets from working tree and changes, then release.
+- REPO_RENAME_GUIDE removed; CHANGELOG 0.1.0 entry updated.
+
+---
+
 ## [0.1.2] - 2026-02-22
 
 - Rule: dates and deadlines (25-dates-and-deadlines.md) — ISO dates, ambiguity handling, deadline taxonomy (Confirmed/Requested/Target/Constraint), where to record (PLAN, RISKS, DECISIONS). Formatting rule 20 references it.
@@ -34,4 +43,4 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 - `.cursor/` (rules, commands, skills, subagents) at repo root.
 - `templates/`, `tools/`, `bootstrap/product-repo-skeleton/`, `archive/`.
 - Sync scripts: `tools/sync-cursor-runtime.sh`, `tools/sync-cursor-runtime.ps1`.
-- Docs: README, VISION, STANDARDS, INSTALL_SUBTREE, REPO_RENAME_GUIDE.
+- Docs: README, VISION, STANDARDS, INSTALL_SUBTREE.
