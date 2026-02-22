@@ -18,10 +18,16 @@ Run this in the **poais-core** repo when you are ready to ship. It performs the 
 2. **Resolve version** — If `version` was provided, use it and ensure it is greater than current VERSION. If omitted, increment patch from current VERSION (e.g. `0.1.0` → `0.1.1`).
 3. **Update CHANGELOG.md** — Replace the `## Unreleased` block (and its bullet list) with `## [X.Y.Z] - YYYY-MM-DD` using today’s date. Insert a new `## Unreleased` section immediately after the top-of-file instructions (before the new release heading), with a single placeholder bullet: `- (none)`. Preserve the rest of the file and the horizontal rules.
 4. **Update VERSION** — Write the new version string as the only content of [VERSION](VERSION) (single line, no trailing newline required).
-5. **Commit** — Stage all changes (`git add -A` or equivalent). Build a short one-line summary of the release from the Unreleased bullets you promoted (e.g. "Single-product scaffold, archive legacy bootstrap, update docs for product/ paths"). Commit with a two-part message:
+5. **Commit** — Stage all changes (`git add -A` or equivalent). **Commit message must always include both (1) version and (2) a short description** — never commit with only the version line.
    - First line: `Release vX.Y.Z`
-   - Blank line, then the short summary line.
-   Example: `Release v0.1.1` then newline then `Single-product scaffold, archive legacy bootstrap, update docs for product/ paths.`
+   - Blank line, then one line summarizing what this release contains (derived from the Unreleased bullets you promoted). Example: "No-code-generation rule, GETTING_STARTED and doc updates, distill-meeting rename."
+   - This gives every release commit useful context at a glance in history and on the remote.
+   Example full message:
+   ```
+   Release v0.1.5
+
+   No-code-generation rule, GETTING_STARTED and doc updates, distill-meeting rename, doctor fixes.
+   ```
    The release commit includes the version bump (CHANGELOG.md, VERSION) and any other modified or new tracked files, so nothing is left uncommitted and the push succeeds.
 6. **Push** — Run `git push origin main` (or `git push` if main is the current branch and upstream is set). If the repo has a rule to ask before pushing to main, prompt once: “Ready to push release vX.Y.Z to main? (yes/no).” Proceed only on yes.
 7. **Report** — Return the new version, the commit hash (if available), and “Pushed to main.”
@@ -38,6 +44,6 @@ Run this in the **poais-core** repo when you are ready to ship. It performs the 
 - If Unreleased has no bullets, populate it from the current working tree and changes (see step 1) so every release has a clear summary.
 - Do not set a version less than or equal to the current VERSION.
 - Only modify CHANGELOG.md and VERSION; no other files.
-- Commit message must include both the version and a short description of the changes being released (from the Unreleased bullets).
+- **Commit message: always two parts.** (1) First line: `Release vX.Y.Z`. (2) After a blank line: one short line describing what the release contains (from the Unreleased bullets). Never commit a release with only the version line — the description is required so releases carry context in git history.
 - Stage and commit all changes (CHANGELOG.md, VERSION, and any other modified or new tracked files) in a single release commit.
 - If git push fails (e.g. no upstream, auth), report the error and do not claim success.
