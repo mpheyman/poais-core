@@ -8,7 +8,7 @@
 
 ## Expected arguments
 
-- **product-folder** — Path to the product directory (e.g. `products/my-product` or `products/my-product/`). Must contain CONTEXT.md, PLAN.md, EXECUTION.md, DECISIONS.md.
+- **product-folder** — Path to the product directory (e.g. `product` or `product/`). Must contain CONTEXT.md, PLAN.md, EXECUTION.md, DECISIONS.md. Must exist; command fails clearly if path does not exist.
 
 ## Delegation
 

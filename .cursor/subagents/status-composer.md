@@ -20,6 +20,6 @@ Draft team, stakeholder, and exec status updates from POAIS artifacts using comp
 - **Team update** — full draft (detailed, tactical).
 - **Stakeholder update** — full draft (clear, non-technical); this is what is written to STATUS.md.
 - **Exec summary** — very brief draft (outcome/risk oriented).
-- **Files updated** — paths modified (typically `products/<product>/STATUS.md`).
+- **Files updated** — paths modified (typically the product folder’s STATUS.md, e.g. `product/STATUS.md`).
 
 Never claim progress or metrics not supported by artifacts. If metrics are missing, use “Metric Snapshot: TBD”.

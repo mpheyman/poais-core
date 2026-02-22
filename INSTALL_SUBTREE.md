@@ -10,7 +10,17 @@ From your product repo root:
 git subtree add --prefix=poais <POAIS_CORE_REPO_URL> main --squash
 ```
 
-This creates a `poais/` directory containing the poais-core files (including `poais/.cursor/`, `poais/tools/`, `poais/templates/`, etc.).
+This creates a `poais/` directory containing the poais-core files (including `poais/.cursor/`, `poais/tools/`, `poais/templates/`, `poais/bootstrap/`, etc.).
+
+## Copy the workspace scaffold (recommended)
+
+From your product repo root, copy the single-product skeleton so you have a `product/` workspace:
+
+```bash
+cp -R poais/bootstrap/single-product-repo-skeleton/* .
+```
+
+You get `product/` with CONTEXT.md, PLAN.md, DECISIONS.md, STATUS.md, and INPUTS/, MEETINGS/, FEATURES/ folders. POAIS commands operate on paths like `product/INPUTS/...`, `product/MEETINGS/...`, or `product` for `/align` and `/status`.
 
 ## Sync Cursor runtime (mandatory)
 
@@ -41,12 +51,15 @@ From your product repo root:
 git subtree pull --prefix=poais <POAIS_CORE_REPO_URL> main --squash
 ```
 
-Then run the sync script again (same as above) so root `.cursor/` matches the updated poais-core.
+Then run the sync script again (same as above) so root `.cursor/` matches the updated poais-core. Check which version you have with `cat poais/VERSION` and compare to [CHANGELOG.md](CHANGELOG.md) in the poais-core repo.
 
 ## Summary
 
 | Step | Command / action |
 |------|------------------|
 | Add poais-core | `git subtree add --prefix=poais <POAIS_CORE_REPO_URL> main --squash` |
+| Copy workspace scaffold | `cp -R poais/bootstrap/single-product-repo-skeleton/* .` |
 | Sync .cursor to root | `bash poais/tools/sync-cursor-runtime.sh` (or `.ps1` on Windows) |
 | Update poais-core | `git subtree pull --prefix=poais <POAIS_CORE_REPO_URL> main --squash` then re-run sync script |
+
+Cursor commands take paths under `product/` (e.g. `/process product/INPUTS/notes.md`, `/align product`, `/status product 2026-02-22`). If the path does not exist, the command fails with a clear message.

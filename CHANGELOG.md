@@ -2,7 +2,7 @@
 
 Versioning follows [Semantic Versioning](https://semver.org/). The canonical version is in [VERSION](VERSION). Product repos can check `poais/VERSION` after a subtree pull to see what they have and avoid drift.
 
-**Before every push to main:** promote "Unreleased" to a new version below, set the release date, update [VERSION](VERSION), then commit and push.
+**Before every push to main:** promote "Unreleased" to a new version below, set the release date, update [VERSION](VERSION), then add and commit all changes (message: version + short description of changes) and push.
 
 ---
 

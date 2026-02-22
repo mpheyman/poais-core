@@ -8,7 +8,7 @@
 
 ## Expected arguments
 
-- **path-to-input-file** — Path to a file containing messy input (e.g. `products/my-product/INPUTS/notes.md`, or a path to a meeting doc, email paste, or chat export). Can be relative to repo root or absolute.
+- **path-to-input-file** — Path to a file containing messy input (e.g. `product/INPUTS/notes.md`, or a path to a meeting doc, email paste, or chat export). Can be relative to repo root or absolute. Must exist; command fails clearly if not.
 
 ## Delegation
 

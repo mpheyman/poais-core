@@ -8,8 +8,8 @@
 
 ## Expected arguments
 
-- **product-folder** — Path to the product directory (e.g. `products/my-product`).
-- **week-of** (optional) — Week identifier for the status (e.g. `2025-02-20`). If omitted, use current week or latest from STATUS.md.
+- **product-folder** — Path to the product directory (e.g. `product`). Must exist; command fails clearly if not.
+- **week-of** (optional) — Week identifier for the status (e.g. `2026-02-22`). If omitted, use current week or latest from STATUS.md.
 
 ## Delegation
 
@@ -19,7 +19,7 @@ Delegates to the **status-composer** subagent.
 
 1. Resolve product-folder and optional week.
 2. Run the status-composer subagent: compose team, stakeholder, and exec updates from EXECUTION, DECISIONS, RISKS (and optional ROADMAP/portfolio).
-3. Update `products/<product>/STATUS.md` with the stakeholder update (and set “Week Of” if week-of provided).
+3. Update the product folder’s STATUS.md with the stakeholder update (and set “Week Of” if week-of provided).
 4. Return all three drafts and list of files updated.
 
 ## Output format
@@ -27,7 +27,7 @@ Delegates to the **status-composer** subagent.
 - **Team update** — detailed draft.
 - **Stakeholder update** — clear draft (written to STATUS.md).
 - **Exec summary** — very concise draft.
-- **Files updated** — typically `products/<product>/STATUS.md`.
+- **Files updated** — typically the product folder’s STATUS.md (e.g. `product/STATUS.md`).
 
 ## Guardrails
 

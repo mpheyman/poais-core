@@ -8,7 +8,7 @@
 
 ## Expected arguments
 
-- **path-to-meeting-file** — Path to a meeting note or transcript (e.g. `products/my-product/MEETINGS/2025-02-20-sprint-planning.md`). Can be relative to repo root or absolute.
+- **path-to-meeting-file** — Path to a meeting note or transcript (e.g. `product/MEETINGS/2025-02-20-sprint-planning.md`). Can be relative to repo root or absolute. Must exist; command fails clearly if not.
 
 ## Delegation
 
