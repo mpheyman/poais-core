@@ -59,30 +59,58 @@ if [[ -d "poais/.cursor" ]] && [[ -d ".cursor" ]]; then
   fi
 fi
 
-if [[ ! -d "$PRODUCT_DIR" ]]; then
-  check_fail "./product not found."
-  echo "    Fix: bash poais/tools/poais-init.sh [URL]" >&2
-else
-  check_ok "./product exists"
+# Resolve product path(s) from lock or default
+PRODUCT_PATHS=()
+if [[ -f "$LOCK_FILE" ]] && command -v jq >/dev/null 2>&1; then
+  if jq -e '.products | length > 0' "$LOCK_FILE" >/dev/null 2>&1; then
+    while IFS= read -r p; do
+      [[ -n "$p" ]] && PRODUCT_PATHS+=( "$p" )
+    done < <(jq -r '.products[]?' "$LOCK_FILE")
+  elif jq -e '.workspace_root' "$LOCK_FILE" >/dev/null 2>&1; then
+    PRODUCT_PATHS=( "$(jq -r '.workspace_root' "$LOCK_FILE")" )
+  fi
 fi
+[[ ${#PRODUCT_PATHS[@]} -eq 0 ]] && PRODUCT_PATHS=( "product" )
 
-for d in $REQUIRED_DIRS; do
-  if [[ -d "${PRODUCT_DIR}/${d}" ]]; then
-    check_ok "${PRODUCT_DIR}/${d}/ exists"
+for PRODUCT_DIR in "${PRODUCT_PATHS[@]}"; do
+  if [[ ! -d "$PRODUCT_DIR" ]]; then
+    check_fail "./${PRODUCT_DIR} not found."
+    echo "    Fix: bash poais/tools/poais-init.sh [URL] or add/update products in POAIS_LOCK.json" >&2
   else
-    check_warn "${PRODUCT_DIR}/${d}/ missing."
-    echo "    Fix: mkdir -p ${PRODUCT_DIR}/${d}" >&2
+    check_ok "./${PRODUCT_DIR} exists"
   fi
+  for d in $REQUIRED_DIRS; do
+    if [[ -d "${PRODUCT_DIR}/${d}" ]]; then
+      check_ok "${PRODUCT_DIR}/${d}/ exists"
+    else
+      check_warn "${PRODUCT_DIR}/${d}/ missing."
+      echo "    Fix: mkdir -p ${PRODUCT_DIR}/${d}" >&2
+    fi
+  done
+  for f in $REQUIRED_FILES; do
+    if [[ -f "${PRODUCT_DIR}/${f}" ]]; then
+      check_ok "${PRODUCT_DIR}/${f} exists"
+    else
+      check_warn "${PRODUCT_DIR}/${f} missing."
+      echo "    Fix: cp poais/templates/product/${f} ${PRODUCT_DIR}/${f}" >&2
+    fi
+  done
 done
 
-for f in $REQUIRED_FILES; do
-  if [[ -f "${PRODUCT_DIR}/${f}" ]]; then
-    check_ok "${PRODUCT_DIR}/${f} exists"
-  else
-    check_warn "${PRODUCT_DIR}/${f} missing."
-    echo "    Fix: cp poais/templates/product/${f} ${PRODUCT_DIR}/${f}" >&2
+# Optional portfolio dir (when lock has portfolio)
+if [[ -f "$LOCK_FILE" ]] && command -v jq >/dev/null 2>&1; then
+  PORTFOLIO_DIR="$(jq -r '.portfolio // empty' "$LOCK_FILE")"
+  if [[ -n "$PORTFOLIO_DIR" ]]; then
+    if [[ -d "$PORTFOLIO_DIR" ]]; then
+      check_ok "./${PORTFOLIO_DIR} exists"
+      [[ ! -f "${PORTFOLIO_DIR}/PRIORITIES.md" ]] && check_warn "${PORTFOLIO_DIR}/PRIORITIES.md missing."
+      [[ ! -f "${PORTFOLIO_DIR}/STATUS.md" ]] && check_warn "${PORTFOLIO_DIR}/STATUS.md missing."
+    else
+      check_warn "./${PORTFOLIO_DIR} not found."
+      echo "    Fix: run init with --layout=portfolio or create ${PORTFOLIO_DIR}/" >&2
+    fi
   fi
-done
+fi
 
 if [[ ! -f "$LOCK_FILE" ]]; then
   check_warn "POAIS_LOCK.json not found (run init or upgrade to create/update)."

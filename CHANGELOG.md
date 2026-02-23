@@ -12,6 +12,16 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.8] - 2026-02-22
+
+- Portfolio (multi-product) support: POAIS_LOCK products array and portfolio; init --layout=portfolio; doctor checks all products and portfolio; upgrade preserves products/portfolio.
+- Bootstrap: portfolio-repo-skeleton (products/product-a, product-b, portfolio/PRIORITIES.md, STATUS.md).
+- /distill-meeting: derive MEETINGS path from input path (works for product/ and products/<name>/).
+- /status portfolio: aggregate from all products, write portfolio/STATUS.md; status-composer and compose_status_updates support portfolio roll-up.
+- Docs and rule 05: portfolio layout, init mode, /status portfolio, product-folder means product/ or products/<name>/.
+
+---
+
 ## [0.1.7] - 2026-02-22
 
 - ROADMAP: rule 26-roadmap (Milestones, Current Quarter, Next, Themes); fed by PLAN, EXECUTION, DECISIONS; stakeholder visibility.

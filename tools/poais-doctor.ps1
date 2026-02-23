@@ -62,31 +62,67 @@ if ((Test-Path $rootCursor -PathType Container) -and (Test-Path $poaisCursorPath
     }
 }
 
-if (-not (Test-Path -LiteralPath $ProductDir -PathType Container)) {
-    Check-Fail ".\product not found."
-    Write-Host "    Fix: .\poais\tools\poais-init.ps1 -RepoUrl <URL>"
-} else {
-    Check-Ok ".\product exists"
+$ProductPaths = @()
+if (Test-Path -LiteralPath $LockFile -PathType Leaf) {
+    try {
+        $lock = Get-Content -LiteralPath $LockFile -Raw | ConvertFrom-Json
+        if ($lock.products) {
+            $arr = @($lock.products)
+            if ($arr.Count -gt 0) { $ProductPaths = $arr }
+        }
+        if ($ProductPaths.Count -eq 0 -and $lock.workspace_root) {
+            $ProductPaths = @($lock.workspace_root)
+        }
+    } catch {}
 }
+if ($ProductPaths.Count -eq 0) { $ProductPaths = @("product") }
 
-foreach ($d in $RequiredDirs) {
-    $dirPath = Join-Path $ProductDir $d
-    if (Test-Path -LiteralPath $dirPath -PathType Container) {
-        Check-Ok "$ProductDir\$d\ exists"
+foreach ($ProductDir in $ProductPaths) {
+    if (-not (Test-Path -LiteralPath $ProductDir -PathType Container)) {
+        Check-Fail ".\$ProductDir not found."
+        Write-Host "    Fix: .\poais\tools\poais-init.ps1 -RepoUrl <URL> or add/update products in POAIS_LOCK.json"
     } else {
-        Check-Warn "$ProductDir\$d\ missing."
-        Write-Host "    Fix: New-Item -ItemType Directory -Path $dirPath -Force"
+        Check-Ok ".\$ProductDir exists"
+    }
+    foreach ($d in $RequiredDirs) {
+        $dirPath = Join-Path $ProductDir $d
+        if (Test-Path -LiteralPath $dirPath -PathType Container) {
+            Check-Ok "$ProductDir\$d\ exists"
+        } else {
+            Check-Warn "$ProductDir\$d\ missing."
+            Write-Host "    Fix: New-Item -ItemType Directory -Path $dirPath -Force"
+        }
+    }
+    foreach ($f in $RequiredFiles) {
+        $filePath = Join-Path $ProductDir $f
+        if (Test-Path -LiteralPath $filePath -PathType Leaf) {
+            Check-Ok "$ProductDir\$f exists"
+        } else {
+            Check-Warn "$ProductDir\$f missing."
+            Write-Host "    Fix: Copy-Item poais\templates\product\$f $ProductDir\$f"
+        }
     }
 }
 
-foreach ($f in $RequiredFiles) {
-    $filePath = Join-Path $ProductDir $f
-    if (Test-Path -LiteralPath $filePath -PathType Leaf) {
-        Check-Ok "$ProductDir\$f exists"
-    } else {
-        Check-Warn "$ProductDir\$f missing."
-        Write-Host "    Fix: Copy-Item poais\templates\product\$f $ProductDir\$f"
-    }
+if (Test-Path -LiteralPath $LockFile -PathType Leaf) {
+    try {
+        $lock = Get-Content -LiteralPath $LockFile -Raw | ConvertFrom-Json
+        $portfolioDir = $lock.portfolio
+        if ($portfolioDir) {
+            if (Test-Path -LiteralPath $portfolioDir -PathType Container) {
+                Check-Ok ".\$portfolioDir exists"
+                if (-not (Test-Path -LiteralPath (Join-Path $portfolioDir "PRIORITIES.md") -PathType Leaf)) {
+                    Check-Warn "$portfolioDir\PRIORITIES.md missing."
+                }
+                if (-not (Test-Path -LiteralPath (Join-Path $portfolioDir "STATUS.md") -PathType Leaf)) {
+                    Check-Warn "$portfolioDir\STATUS.md missing."
+                }
+            } else {
+                Check-Warn ".\$portfolioDir not found."
+                Write-Host "    Fix: run init with -Layout Portfolio or create $portfolioDir\"
+            }
+        }
+    } catch {}
 }
 
 if (-not (Test-Path -LiteralPath $LockFile -PathType Leaf)) {

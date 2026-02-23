@@ -77,11 +77,12 @@ else
 }
 EOF
 fi
+# Preserve products and portfolio from existing lock (jq update above keeps all keys; sed path does not remove them)
 
 echo ""
 echo "SUCCESS: poais-core upgraded."
 echo "  poais-core commit (this repo): ${POAIS_COMMIT:-unknown}"
 echo ""
-echo "Next: run /align product in Cursor to check artifact alignment after upgrades."
+echo "Next: run /align product (or /align products/<name> for portfolio) in Cursor to check artifact alignment after upgrades."
 echo ""
 exit 0

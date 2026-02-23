@@ -15,15 +15,15 @@
 If the user asks to **build**, **implement**, **start working on**, **create the website**, or uses any phrasing that implies implementation:
 
 1. **Do not write code.** Stop before writing any code files.
-2. **Create or update product artifacts instead:**
-   - `product/FEATURES/<feature>.md` — feature spec
-   - `product/PLAN.md` — sequence, milestones, deadlines classification
-   - `product/EXECUTION.md` — who/what/next actions, coordination
-   - `product/RISKS.md` — if execution introduces risk
+2. **Create or update product artifacts instead:** Use the active product folder (e.g. `product/` or `products/<name>/`).
+   - `<product-folder>/FEATURES/<feature>.md` — feature spec
+   - `<product-folder>/PLAN.md` — sequence, milestones, deadlines classification
+   - `<product-folder>/EXECUTION.md` — who/what/next actions, coordination
+   - `<product-folder>/RISKS.md` — if execution introduces risk
 3. **Ask for or reference the separate implementation repo(s)** where code will live. Do not generate code in this repo.
 4. If the user has not specified an implementation repo, **ask for it** (URLs or paths) rather than generating code locally.
 
 ## Implementation repositories
 
-- **Recommend** that `product/CONTEXT.md` includes an **Implementation Repositories** section listing URLs or paths to the repo(s) where application code lives.
+- **Recommend** that each product’s CONTEXT (e.g. `product/CONTEXT.md` or `products/<name>/CONTEXT.md`) includes an **Implementation Repositories** section listing URLs or paths to the repo(s) where application code lives.
 - **If no implementation repo is documented:** ask the user for it. Do not create code in this POAIS repo.

@@ -49,6 +49,13 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 5. **Run `/align product`** — Ensure ROADMAP and PLAN stay aligned.
 6. **Dates** — Use ISO dates (YYYY-MM-DD) and the deadline taxonomy (Confirmed / Requested / Target / Constraint). See [.cursor/rules/25-dates-and-deadlines.md](.cursor/rules/25-dates-and-deadlines.md).
 
+### Portfolio (multiple products)
+
+1. **Layout** — Products live under `products/<name>/` (e.g. `products/widget/`, `products/api/`). Optional `portfolio/` at repo root holds PRIORITIES.md and STATUS.md (roll-up). Initialize with `poais-init.sh --layout=portfolio [names]` or `poais-init.ps1 -Layout Portfolio`.
+2. **Per product** — Run `/align products/<name>`, `/status products/<name>`, `/process products/<name>/INPUTS/...`, `/distill-meeting products/<name>/INPUTS/...` as for single-product; the catalogued meeting is written to that product’s MEETINGS/.
+3. **Portfolio roll-up** — Run **`/status portfolio`** to aggregate status across all products (from POAIS_LOCK.json) and write `portfolio/STATUS.md`.
+4. **Adding a product** — Create the folder under `products/` with the same artifact set (or run init with portfolio mode and new product names), then add the path to POAIS_LOCK.json `products` array.
+
 ---
 
 ## Expected workflow loop
@@ -68,8 +75,8 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 | `/process product/INPUTS/YYYY-MM-DD-<slug>.md` | Turn one input file into summary + proposed updates to DISCOVERY, PLAN, DECISIONS, RISKS, EXECUTION. |
 | `/process product/MEETINGS/YYYY-MM-DD-<slug>.md` | Run on a **catalogued meeting** (output of `/distill-meeting`) to extract key data and update artifacts. |
 | `/distill-meeting product/INPUTS/YYYY-MM-DD-<slug>.md` | Refine raw meeting jottings into a formatted meeting record; catalogue to MEETINGS/; then run `/process` on that file to update artifacts. |
-| `/align product` | Compare CONTEXT, PLAN, EXECUTION, DECISIONS (and optional ROADMAP); report drift and suggest fixes. |
-| `/status product` or `/status product YYYY-MM-DD` | Compose status drafts and update STATUS.md. |
+| `/align product` or `/align products/<name>` | Compare CONTEXT, PLAN, EXECUTION, DECISIONS (and optional ROADMAP); report drift and suggest fixes. |
+| `/status product` or `/status products/<name>` or `/status portfolio` | Compose status drafts and update STATUS.md (or portfolio/STATUS.md for portfolio). |
 
 Full syntax and options: [.cursor/commands/README.md](.cursor/commands/README.md).
 

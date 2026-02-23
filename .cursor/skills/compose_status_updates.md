@@ -6,10 +6,8 @@ Generate three levels of status copy from POAIS artifacts: team (detailed), stak
 
 ## Inputs
 
-- EXECUTION.md (current focus, progress)
-- DECISIONS.md (recent decisions)
-- RISKS.md (current risks)
-- Optional: ROADMAP.md, portfolio context
+- **Single product:** EXECUTION.md, DECISIONS.md, RISKS.md (current focus, progress, decisions, risks). Optional: ROADMAP.md.
+- **Portfolio roll-up:** For each product (from POAIS_LOCK `products`), EXECUTION, DECISIONS, RISKS (and optional ROADMAP). Optional: portfolio/PRIORITIES.md. Output is one combined draft aggregating across products.
 
 ## Output format
 
@@ -25,8 +23,8 @@ When ROADMAP is present, include a **Key dates (roadmap)** subsection in the sta
 
 ## Steps
 
-1. Read EXECUTION, DECISIONS, RISKS (and optional ROADMAP/portfolio).
-2. If ROADMAP is present, extract Milestones and (if useful) one-line Current Quarter/Next; add Key dates (roadmap) to stakeholder draft and optionally to exec summary; do not invent dates or milestones.
+1. Read EXECUTION, DECISIONS, RISKS (and optional ROADMAP). For **portfolio roll-up**, read each product’s artifacts and optional portfolio/PRIORITIES; aggregate into one set of “what moved, what changed, blockers, risks” across products.
+2. If ROADMAP is present (single product or per-product in roll-up), extract Milestones and (if useful) one-line Current Quarter/Next; add Key dates (roadmap) to stakeholder draft and optionally to exec summary; do not invent dates or milestones.
 3. Extract what moved, what changed, blockers, risks.
 4. Draft team update (detailed).
 5. Draft stakeholder update (clear, scannable).

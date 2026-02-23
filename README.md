@@ -1,6 +1,6 @@
 # poais-core
 
-**poais-core** is the OS distribution of POAIS (Product Operating AI System): a structured, markdown-first operating system for product work. It is intended to be vendored into product repos via **git subtree** and used with Cursor (one product per repo).
+**poais-core** is the OS distribution of POAIS (Product Operating AI System): a structured, markdown-first operating system for product work. It is intended to be vendored into product repos via **git subtree** and used with Cursor. **Single product (default):** one workspace at `product/`. **Portfolio:** multiple products at `products/<name>/`; run init with portfolio mode.
 
 - **Human-led orchestration** — you decide; AI assists with synthesis and drafting.
 - **Inputs are messy** (chat, email, meetings); **outputs are structured** (CONTEXT, PLAN, DECISIONS, STATUS, etc.).
@@ -8,7 +8,7 @@
 
 ## What belongs in a product repo
 
-- Your **product workspace** at `product/` (CONTEXT, PLAN, DECISIONS, STATUS, INPUTS, MEETINGS, FEATURES)
+- Your **product workspace** at `product/` (single-product) or **products/** plus optional **portfolio/** (multi-product). Each product has CONTEXT, PLAN, DECISIONS, STATUS, INPUTS, MEETINGS, FEATURES.
 - **poais-core** as a subtree under `poais/` (rules, commands, skills, subagents, templates, tools)
 - A **synced** `.cursor/` at repo root (from `poais/.cursor/` via the sync script) so Cursor sees POAIS commands
 
@@ -42,12 +42,12 @@ git commit -m "Initial commit"
 
 Then run the one-command init above. After it completes: **open the repo in Cursor**, create e.g. `product/INPUTS/YYYY-MM-DD-notes.md`, and run **`/process product/INPUTS/<your-file>.md`**. For meeting jottings, put them in INPUTS and run **`/distill-meeting`** on that file (refines and catalogues to MEETINGS/), then **`/process`** on the MEETINGS file to update artifacts. Once setup is complete, see **[GETTING_STARTED.md](GETTING_STARTED.md)** for where to start and the expected workflow. See [.cursor/commands/README.md](.cursor/commands/README.md) for `/distill-meeting`, `/align`, `/status`.
 
-### Initialize using local poais (legacy)
+### Initialize using local poais
 
 If you already have `poais/` (e.g. from a previous subtree add):
 
-- **macOS/Linux:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
-- **Windows:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
+- **Single product (default):** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git` (macOS/Linux) or `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git` (Windows).
+- **Portfolio (multiple products):** `bash poais/tools/poais-init.sh --layout=portfolio [product-a product-b]` or `poais-init.ps1 -Layout Portfolio [-ProductNames product-a,product-b]`. Creates `products/<name>/` and `portfolio/`; see [GETTING_STARTED.md](GETTING_STARTED.md#portfolio-multiple-products).
 
 ### Upgrade poais-core in an existing product repo
 

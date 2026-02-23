@@ -32,12 +32,12 @@ git commit -m "Initial commit"
 
 Then run the one-command init. **After init:** open the repo in Cursor and run e.g. `/process product/INPUTS/YYYY-MM-DD-notes.md`. See [GETTING_STARTED.md](GETTING_STARTED.md) for PM workflow.
 
-### Initialize using local poais (legacy)
+### Initialize using local poais
 
 If you already have `poais/` in the repo:
 
-- **macOS/Linux:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
-- **Windows:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
+- **Single product:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git` (macOS/Linux) or `poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git` (Windows).
+- **Portfolio (multiple products):** `bash poais/tools/poais-init.sh --layout=portfolio [product-a product-b]` or `poais-init.ps1 -Layout Portfolio [-ProductNames product-a,product-b]`. Lock will list product paths; see GETTING_STARTED.
 
 ### Upgrade poais-core in an existing product repo
 
@@ -53,7 +53,7 @@ Upgrade runs `git subtree pull` and re-syncs `.cursor/` automatically. It does n
 - **macOS/Linux / Git Bash:** `bash poais/tools/poais-doctor.sh`
 - **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-doctor.ps1`
 
-Doctor checks: git repo, `poais/`, `poais/.cursor`, root `.cursor/`, `product/`, required dirs (INPUTS, MEETINGS, FEATURES), required files, `POAIS_LOCK.json`. It prints OK/WARN/FAIL and exact fix commands.
+Doctor checks: git repo, `poais/`, `poais/.cursor`, root `.cursor/`, product path(s) from `POAIS_LOCK.json` (`workspace_root` or `products` array), required dirs and files per product, optional `portfolio/` when lock has `portfolio`. It prints OK/WARN/FAIL and exact fix commands.
 
 ---
 

@@ -1,6 +1,6 @@
 # POAIS Commands
 
-Commands are the user-facing layer. Each command delegates to a subagent and returns structured output. The default workspace root is `product/`.
+Commands are the user-facing layer. Each command delegates to a subagent and returns structured output. For single-product repos the default workspace is `product/`; for portfolio repos use `products/<name>/` per product.
 
 ## Available commands
 
@@ -9,18 +9,20 @@ Commands are the user-facing layer. Each command delegates to a subagent and ret
 | `/process <path-to-input-file>` | Process messy input (chat, email, doc) into summary, extracted decisions/risks/scope, and minimal artifact updates. |
 | `/distill-meeting <path-to-input-file>` | Refine raw meeting notes (typically in INPUTS) into a formatted meeting record; catalogue to MEETINGS/. PM can then run `/process` on the MEETINGS file to update artifacts. |
 | `/align <product-folder>` | Run alignment check on product artifacts; output Alignment Report, suggested edits; auto-apply only low-risk consistency fixes. |
-| `/status <product-folder> [week-of YYYY-MM-DD]` | Compose team, stakeholder, and exec status drafts; update STATUS.md with stakeholder version. |
+| `/status <product-folder> [week-of YYYY-MM-DD]` | Compose status drafts; update STATUS.md. Use **`/status portfolio`** to aggregate across all products and write `portfolio/STATUS.md`. |
 | `/release [version]` | **(poais-core repo only)** Promote Unreleased to a new version in CHANGELOG, update VERSION, commit, and push to main. Optional version (e.g. `0.2.0`); if omitted, bump patch. |
 
 ## Syntax examples
 
 ```text
 /process product/INPUTS/YYYY-MM-DD-<slug>.md
-/process product/MEETINGS/YYYY-MM-DD-<slug>.md
+/process products/widget/INPUTS/YYYY-MM-DD-<slug>.md
 /distill-meeting product/INPUTS/YYYY-MM-DD-<slug>.md
 /align product
+/align products/widget
 /status product
-/status product 2026-02-22
+/status products/widget 2026-02-22
+/status portfolio
 /release
 /release 0.2.0
 ```
@@ -34,5 +36,5 @@ Commands take a user-provided path (except `/release`, which is for the poais-co
 - **process** — Turn one input file into high-signal summary + proposed updates to DISCOVERY, PLAN, DECISIONS, RISKS, FEATURES, EXECUTION.
 - **distill-meeting** — Refine raw meeting notes (in INPUTS) into a formatted meeting record; write to MEETINGS/. If attendees, time, or agenda cannot be deduced, ask the PM if they want to add; allow proceeding without. PM then runs `/process` on the MEETINGS file to update artifacts.
 - **align** — Compare CONTEXT, PLAN, EXECUTION, DECISIONS (and optional ROADMAP/portfolio); report drift and suggest fixes.
-- **status** — Generate team/stakeholder/exec status drafts from artifacts and update STATUS.md.
+- **status** — Generate team/stakeholder/exec status drafts and update STATUS.md. For portfolio repos, **`/status portfolio`** aggregates from all products and writes `portfolio/STATUS.md`.
 - **release** — (poais-core only) Promote CHANGELOG Unreleased to a version, update VERSION, commit, and push to main.

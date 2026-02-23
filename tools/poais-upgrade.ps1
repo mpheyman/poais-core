@@ -61,13 +61,20 @@ $lockContent = @{
     poais_core_commit = $poaisCommit
     cursor_runtime_synced_at = $now
     upgraded_at = $now
-    workspace_root = "product"
 }
 if (Test-Path -LiteralPath $LockFile -PathType Leaf) {
     try {
         $existing = Get-Content -LiteralPath $LockFile -Raw | ConvertFrom-Json
         $lockContent.installed_at = $existing.installed_at
+        if ($existing.products) { $lockContent.products = $existing.products }
+        if ($existing.portfolio) { $lockContent.portfolio = $existing.portfolio }
+        if (-not $lockContent.products -and -not $lockContent.portfolio -and $existing.workspace_root) {
+            $lockContent.workspace_root = $existing.workspace_root
+        }
     } catch {}
+}
+if (-not $lockContent.workspace_root -and -not $lockContent.products) {
+    $lockContent.workspace_root = "product"
 }
 $lockContent | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath $LockFile -Encoding utf8 -NoNewline:$false
 
@@ -75,6 +82,6 @@ Write-Host ""
 Write-Host "SUCCESS: poais-core upgraded."
 Write-Host "  poais-core commit (this repo): $poaisCommit"
 Write-Host ""
-Write-Host "Next: run /align product in Cursor to check artifact alignment after upgrades."
+Write-Host "Next: run /align product (or /align products/<name> for portfolio) in Cursor to check artifact alignment after upgrades."
 Write-Host ""
 exit 0
