@@ -39,7 +39,7 @@ if ($Layout -eq "Portfolio") {
 $Templates = Join-Path $PoaisDir "templates\product"
 $ProductDir = "product"
 $RequiredFiles = @("CONTEXT.md", "DISCOVERY.md", "PLAN.md", "EXECUTION.md", "DECISIONS.md", "RISKS.md", "ROADMAP.md", "STATUS.md")
-$RequiredDirs = @("INPUTS", "MEETINGS", "FEATURES")
+$RequiredDirs = @("INPUTS", "MEETINGS", "FEATURES", "IDEAS")
 
 if (-not (Test-Path -LiteralPath $PoaisDir -PathType Container)) {
     if (-not $RepoUrl) {

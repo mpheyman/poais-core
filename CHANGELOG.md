@@ -12,6 +12,16 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.9] - 2026-02-22
+
+- Onboarding simplified: install/upgrade in README (agent /setup-poais and CLI first); GETTING_STARTED shortened; INSTALL_SUBTREE.md removed.
+- /setup-poais: conversational setup flow; rule 28 and command.
+- /create-meeting-notes and /capture-idea with subagents (meeting-notes-creator, idea-capture); rule 27; IDEAS/ in bootstrap skeletons.
+- Templates: only product/ used by init; reference-only meeting/feature/input/idea removed; templates/README.
+- Doc index: .cursor/README.md, tools/README.md, bootstrap/README.md; command spec table in .cursor/commands/README.md.
+
+---
+
 ## [0.1.8] - 2026-02-22
 
 - Portfolio (multi-product) support: POAIS_LOCK products array and portfolio; init --layout=portfolio; doctor checks all products and portfolio; upgrade preserves products/portfolio.

@@ -46,7 +46,7 @@ fi
 TEMPLATES="${POAIS_DIR}/templates/product"
 PRODUCT_DIR="product"
 REQUIRED_FILES="CONTEXT.md DISCOVERY.md PLAN.md EXECUTION.md DECISIONS.md RISKS.md ROADMAP.md STATUS.md"
-REQUIRED_DIRS="INPUTS MEETINGS FEATURES"
+REQUIRED_DIRS="INPUTS MEETINGS FEATURES IDEAS"
 
 if [[ ! -d "$POAIS_DIR" ]]; then
   if [[ -z "$POAIS_CORE_REPO_URL" ]]; then
@@ -85,7 +85,7 @@ if [[ "$LAYOUT" == "portfolio" ]]; then
   echo "  Ensuring required dirs and files per product..."
   for pname in "${PRODUCT_NAMES[@]}"; do
     prod_path="products/${pname}"
-    mkdir -p "${prod_path}/INPUTS" "${prod_path}/MEETINGS" "${prod_path}/FEATURES"
+    mkdir -p "${prod_path}/INPUTS" "${prod_path}/MEETINGS" "${prod_path}/FEATURES" "${prod_path}/IDEAS"
     for f in $REQUIRED_FILES; do
       if [[ ! -f "${prod_path}/${f}" ]] && [[ -f "${TEMPLATES}/${f}" ]]; then
         cp "${TEMPLATES}/${f}" "${prod_path}/${f}"
@@ -110,7 +110,7 @@ else
     echo ""
   fi
   echo "  Ensuring required dirs and files..."
-  mkdir -p "${PRODUCT_DIR}/INPUTS" "${PRODUCT_DIR}/MEETINGS" "${PRODUCT_DIR}/FEATURES"
+  mkdir -p "${PRODUCT_DIR}/INPUTS" "${PRODUCT_DIR}/MEETINGS" "${PRODUCT_DIR}/FEATURES" "${PRODUCT_DIR}/IDEAS"
   for f in $REQUIRED_FILES; do
     if [[ ! -f "${PRODUCT_DIR}/${f}" ]] && [[ -f "${TEMPLATES}/${f}" ]]; then
       cp "${TEMPLATES}/${f}" "${PRODUCT_DIR}/${f}"

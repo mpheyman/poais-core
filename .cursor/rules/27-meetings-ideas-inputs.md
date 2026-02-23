@@ -1,0 +1,5 @@
+# Meetings, ideas, and inputs
+
+- **INPUTS/** — Single source for **unstructured** input: paste, email, chat, doc excerpts, and (in future) API-fed data such as meeting recordings/transcripts or inbox sync. Create a file in INPUTS, add raw content, then run `/process` (general input) or `/distill-meeting` (meeting jottings). INPUTS is not replaced by live-capture commands; it remains the canonical place for anything that is not yet catalogued.
+- **MEETINGS/** — **Catalogued meeting records.** Two ways to get content here: (1) **Live capture** — run `/create-meeting-notes` to create a new meeting-notes file in MEETINGS/, then fill it (with the agent’s help) during or after the meeting; (2) **From INPUTS** — put raw meeting jottings in INPUTS, run `/distill-meeting` on that file to refine and catalogue to MEETINGS/. In both cases, run `/process` on the MEETINGS file afterward to extract decisions and update artifacts.
+- **IDEAS/** — **Catalogued ideas.** Run `/capture-idea` to create a new idea file in IDEAS/; fill it and refine or promote later with `/process` on that file or future refine/promote workflows (into DISCOVERY, PLAN, FEATURES, etc.).

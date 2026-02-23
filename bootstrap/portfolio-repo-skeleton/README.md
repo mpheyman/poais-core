@@ -1,6 +1,6 @@
 # Portfolio repo scaffold
 
-Use this scaffold to bootstrap a **multi-product (portfolio)** workspace. Products live under `products/<name>/`; optional `portfolio/` at repo root holds PRIORITIES and STATUS roll-up.
+Use this scaffold to bootstrap a **multi-product (portfolio)** workspace. Products live under `products/<name>/`; optional `portfolio/` at repo root holds PRIORITIES and STATUS roll-up. POAIS is built for [Cursor](https://cursor.com) (commands, rules, skills, subagents); run workflows in Cursor.
 
 ## Recommended: use poais-init with portfolio mode
 
@@ -13,7 +13,7 @@ If you omit product names, init uses the default from this skeleton (`product-a`
 
 ## Layout
 
-- `products/product-a/`, `products/product-b/` — each has CONTEXT, PLAN, EXECUTION, DECISIONS, STATUS, DISCOVERY, RISKS, ROADMAP, INPUTS/, MEETINGS/, FEATURES/.
+- `products/product-a/`, `products/product-b/` — each has CONTEXT, PLAN, EXECUTION, DECISIONS, STATUS, DISCOVERY, RISKS, ROADMAP, INPUTS/, MEETINGS/, FEATURES/, IDEAS/.
 - `portfolio/PRIORITIES.md` — product priorities and themes.
 - `portfolio/STATUS.md` — roll-up written by `/status portfolio`.
 
@@ -24,4 +24,4 @@ If you omit product names, init uses the default from this skeleton (`product-a`
 - `/status portfolio` — aggregate status across all products; writes `portfolio/STATUS.md`.
 - `/process products/<name>/INPUTS/...`, `/distill-meeting products/<name>/INPUTS/...` — same as single-product, with product path.
 
-See `poais/.cursor/commands/README.md` and `poais/GETTING_STARTED.md` for portfolio workflow.
+For guided setup (including portfolio), run **`/setup-poais`** in Cursor. See `poais/.cursor/commands/README.md` and `poais/GETTING_STARTED.md` for portfolio workflow.

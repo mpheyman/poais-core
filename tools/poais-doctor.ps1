@@ -18,7 +18,7 @@ $Status = 0
 $PoaisDir = "poais"
 $ProductDir = "product"
 $RequiredFiles = @("CONTEXT.md", "DISCOVERY.md", "PLAN.md", "EXECUTION.md", "DECISIONS.md", "RISKS.md", "ROADMAP.md", "STATUS.md")
-$RequiredDirs = @("INPUTS", "MEETINGS", "FEATURES")
+$RequiredDirs = @("INPUTS", "MEETINGS", "FEATURES", "IDEAS")
 $LockFile = "POAIS_LOCK.json"
 
 function Check-Ok($msg) { Write-Host "  OK:   $msg" -ForegroundColor Green }

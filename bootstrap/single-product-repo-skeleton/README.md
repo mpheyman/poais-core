@@ -1,6 +1,6 @@
 # Single-product repo scaffold
 
-Use this scaffold to bootstrap a **one-product-per-repo** workspace. The product lives at `product/` (not under `products/<name>/`).
+Use this scaffold to bootstrap a **one-product-per-repo** workspace. The product lives at `product/` (not under `products/<name>/`). POAIS is built for [Cursor](https://cursor.com) (commands, rules, skills, subagents); run workflows in Cursor.
 
 ## Recommended: use poais-init
 
@@ -11,7 +11,7 @@ From your product repo root when `poais/` already exists, run:
 - **macOS/Linux / Git Bash:** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git`
 - **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`
 
-Init syncs `.cursor/`, copies this scaffold into repo root (safe copy: does not overwrite existing files), ensures INPUTS/MEETINGS/FEATURES and required artifact files exist, and creates/updates `POAIS_LOCK.json`.
+Init syncs `.cursor/`, copies this scaffold into repo root (safe copy: does not overwrite existing files), ensures INPUTS/MEETINGS/FEATURES/IDEAS and required artifact files exist, and creates/updates `POAIS_LOCK.json`. For guided setup, run **`/setup-poais`** in Cursor.
 
 ## Legacy: manual copy
 
@@ -28,4 +28,4 @@ Then run the Cursor sync script: `bash poais/tools/sync-cursor-runtime.sh` (or `
 1. Create an input file, e.g. `product/INPUTS/2026-02-22-notes.md`.
 2. In Cursor, run: `/process product/INPUTS/2026-02-22-notes.md`. For meeting jottings, run `/distill-meeting` on the INPUTS file (refines and catalogues to MEETINGS/), then `/process` on the MEETINGS file.
 
-See `poais/.cursor/commands/README.md` for `/distill-meeting`, `/align`, and `/status` syntax. For full PM workflow (new product, feature, or roadmap), see `poais/GETTING_STARTED.md`.
+See `poais/.cursor/commands/README.md` for `/setup-poais`, `/distill-meeting`, `/create-meeting-notes`, `/capture-idea`, `/align`, and `/status` syntax. For full PM workflow (new product, feature, or roadmap), see `poais/GETTING_STARTED.md`.

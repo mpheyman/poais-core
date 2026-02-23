@@ -1,6 +1,6 @@
 # poais-core
 
-**poais-core** is the OS distribution of POAIS (Product Operating AI System): a structured, markdown-first operating system for product work. It is intended to be vendored into product repos via **git subtree** and used with Cursor. **Single product (default):** one workspace at `product/`. **Portfolio:** multiple products at `products/<name>/`; run init with portfolio mode.
+**poais-core** is the OS distribution of POAIS (Product Operating AI System): a structured, markdown-first operating system for product work. It is intended to be vendored into product repos via **git subtree** and is **built for use with [Cursor](https://cursor.com)** — it utilizes Cursor **commands** (e.g. `/process`, `/align`, `/status`), **rules**, **skills**, and **subagents** so that product work stays aligned and repeatable inside the editor. **Single product (default):** one workspace at `product/`. **Portfolio:** multiple products at `products/<name>/`; run init with portfolio mode.
 
 - **Human-led orchestration** — you decide; AI assists with synthesis and drafting.
 - **Inputs are messy** (chat, email, meetings); **outputs are structured** (CONTEXT, PLAN, DECISIONS, STATUS, etc.).
@@ -8,15 +8,15 @@
 
 ## What belongs in a product repo
 
-- Your **product workspace** at `product/` (single-product) or **products/** plus optional **portfolio/** (multi-product). Each product has CONTEXT, PLAN, DECISIONS, STATUS, INPUTS, MEETINGS, FEATURES.
+- Your **product workspace** at `product/` (single-product) or **products/** plus optional **portfolio/** (multi-product). Each product has CONTEXT, PLAN, DECISIONS, STATUS, INPUTS, MEETINGS, IDEAS, FEATURES.
 - **poais-core** as a subtree under `poais/` (rules, commands, skills, subagents, templates, tools)
 - A **synced** `.cursor/` at repo root (from `poais/.cursor/` via the sync script) so Cursor sees POAIS commands
 
 ## Quickstart
 
-### One-command initialization (recommended)
+**Preferred:** Open your product repo in Cursor and run **`/setup-poais`**. The agent will check your repo, ask layout (single vs portfolio) and options, run init, then guide you to the next step. No need to run commands from the docs.
 
-From a **brand-new product repo** with at least one initial commit (required for `git subtree`):
+**CLI option:** From the product repo root (with at least one commit): run the one-liner below. Then open the repo in Cursor; see [GETTING_STARTED.md](GETTING_STARTED.md) for workflow.
 
 **Mac/Linux / Git Bash:**
 
@@ -30,39 +30,20 @@ curl -fsSL https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poai
 $env:POAIS_CORE_REPO_URL = 'https://github.com/mpheyman/poais-core.git'; irm https://raw.githubusercontent.com/mpheyman/poais-core/main/tools/poais-init.ps1 | iex
 ```
 
-*(Replace `mpheyman` with your GitHub org or fork if using a different poais-core repo.)*
+*(Replace `mpheyman` with your GitHub org or fork if needed.)* No commit yet? Create one: `echo "# myproduct" > README.md` then `git add README.md` and `git commit -m "Initial commit"`.
 
-If the repo has no commits yet, create one first:
+**More:** Re-scaffold or portfolio (with `poais/` already present), upgrade, or diagnose: see [tools/README.md](tools/README.md) for init/upgrade/doctor usage.
 
-```bash
-echo "# myproduct" > README.md
-git add README.md
-git commit -m "Initial commit"
-```
+### Manual install (legacy)
 
-Then run the one-command init above. After it completes: **open the repo in Cursor**, create e.g. `product/INPUTS/YYYY-MM-DD-notes.md`, and run **`/process product/INPUTS/<your-file>.md`**. For meeting jottings, put them in INPUTS and run **`/distill-meeting`** on that file (refines and catalogues to MEETINGS/), then **`/process`** on the MEETINGS file to update artifacts. Once setup is complete, see **[GETTING_STARTED.md](GETTING_STARTED.md)** for where to start and the expected workflow. See [.cursor/commands/README.md](.cursor/commands/README.md) for `/distill-meeting`, `/align`, `/status`.
+Without using the init script:
 
-### Initialize using local poais
-
-If you already have `poais/` (e.g. from a previous subtree add):
-
-- **Single product (default):** `bash poais/tools/poais-init.sh https://github.com/mpheyman/poais-core.git` (macOS/Linux) or `powershell -ExecutionPolicy Bypass -File poais\tools\poais-init.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git` (Windows).
-- **Portfolio (multiple products):** `bash poais/tools/poais-init.sh --layout=portfolio [product-a product-b]` or `poais-init.ps1 -Layout Portfolio [-ProductNames product-a,product-b]`. Creates `products/<name>/` and `portfolio/`; see [GETTING_STARTED.md](GETTING_STARTED.md#portfolio-multiple-products).
-
-### Upgrade poais-core in an existing product repo
-
-- Ensure your working tree is clean (commit or stash changes).
-- **macOS/Linux / Git Bash:** `bash poais/tools/poais-upgrade.sh https://github.com/mpheyman/poais-core.git`  
-  *(URL optional if `POAIS_LOCK.json` exists.)*
-- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-upgrade.ps1 -RepoUrl https://github.com/mpheyman/poais-core.git`  
-  *(Re-run `.cursor` sync is automatic as part of upgrade.)*
-
-### Diagnose issues
-
-- **macOS/Linux / Git Bash:** `bash poais/tools/poais-doctor.sh`
-- **Windows PowerShell:** `powershell -ExecutionPolicy Bypass -File poais\tools\poais-doctor.ps1`
-
-Doctor reports OK / WARN / FAIL and prints exact fix commands (sync, init, upgrade, or create missing files).
+| Step | Action |
+|------|--------|
+| Add poais-core | `git subtree add --prefix=poais https://github.com/mpheyman/poais-core.git main --squash` |
+| Copy scaffold | `cp -R poais/bootstrap/single-product-repo-skeleton/* .` |
+| Sync .cursor | `bash poais/tools/sync-cursor-runtime.sh` (or `.ps1` on Windows) |
+| Update later | `git subtree pull --prefix=poais https://github.com/mpheyman/poais-core.git main --squash` then re-run sync |
 
 ## Versioning
 
@@ -90,7 +71,12 @@ Compare with the [poais-core releases / CHANGELOG](CHANGELOG.md) to avoid drift.
 | [GitHub — mpheyman/poais-core](https://github.com/mpheyman/poais-core) | Repo root |
 | [VERSION](VERSION) | Current release version (single line) |
 | [CHANGELOG.md](CHANGELOG.md) | Release history and unreleased changes |
-| [INSTALL_SUBTREE.md](INSTALL_SUBTREE.md) | Subtree add/update and mandatory `.cursor` sync |
+| [VISION.md](VISION.md) | Vision and role of poais-core |
+| [GETTING_STARTED.md](GETTING_STARTED.md) | PM workflow: where to start, artifacts, commands |
+| [STANDARDS.md](STANDARDS.md) | Product standards: required artifacts, decisions, STATUS, POAIS reflects reality |
+| [.cursor/README.md](.cursor/README.md) | Cursor runtime index: commands, rules, subagents, skills |
+| [.cursor/commands/README.md](.cursor/commands/README.md) | POAIS command reference and syntax |
+| [tools/README.md](tools/README.md) | Init, upgrade, doctor, sync scripts (purpose and usage) |
 | [tools/poais-init.sh](tools/poais-init.sh) | Init script (macOS/Linux/Git Bash) |
 | [tools/poais-init.ps1](tools/poais-init.ps1) | Init script (Windows PowerShell) |
 | [tools/poais-upgrade.sh](tools/poais-upgrade.sh) | Upgrade script (macOS/Linux/Git Bash) |
@@ -99,15 +85,17 @@ Compare with the [poais-core releases / CHANGELOG](CHANGELOG.md) to avoid drift.
 | [tools/poais-doctor.ps1](tools/poais-doctor.ps1) | Diagnostics (Windows PowerShell) |
 | [tools/sync-cursor-runtime.sh](tools/sync-cursor-runtime.sh) | Sync script (macOS/Linux/Git Bash) |
 | [tools/sync-cursor-runtime.ps1](tools/sync-cursor-runtime.ps1) | Sync script (Windows PowerShell) |
-| [.cursor/commands/README.md](.cursor/commands/README.md) | POAIS command reference |
+| [bootstrap/README.md](bootstrap/README.md) | Bootstrap skeletons (single-product and portfolio) |
 | [bootstrap/single-product-repo-skeleton/](bootstrap/single-product-repo-skeleton/) | Single-product workspace scaffold |
+| [bootstrap/portfolio-repo-skeleton/](bootstrap/portfolio-repo-skeleton/) | Portfolio workspace scaffold |
+| [templates/README.md](templates/README.md) | Product doc templates (copied by init) |
 
 ## Repo layout (this distribution)
 
 - **VERSION** — Single line: current release (e.g. `0.1.0`); used to detect drift in product repos
 - **CHANGELOG.md** — Release history; "Unreleased" is promoted to a version before each push to main
-- **.cursor/** — Rules, commands, skills, subagents (source for sync; Cursor reads from repo root `.cursor/` in product repos)
-- **templates/** — Product/feature/meeting doc templates
-- **tools/** — Init, upgrade, doctor, and sync scripts (no Node/Python required)
-- **bootstrap/** — Single-product scaffold to copy into new repos
+- **.cursor/** — Cursor rules, commands, skills, and subagents (source for sync; Cursor reads from repo root `.cursor/` in product repos). See [.cursor/README.md](.cursor/README.md).
+- **templates/** — Product doc templates (copied by init into product workspace); see [templates/README.md](templates/README.md)
+- **tools/** — Init, upgrade, doctor, and sync scripts (no Node/Python required); see [tools/README.md](tools/README.md)
+- **bootstrap/** — Single-product and portfolio scaffolds; see [bootstrap/README.md](bootstrap/README.md)
 - **archive/** — Legacy or archived content (not part of the distribution)
