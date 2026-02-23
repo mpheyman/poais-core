@@ -14,5 +14,6 @@
 
 - **Where to record:**
   - **PLAN.md** — Timeline/Milestones section with ISO dates and classification.
+  - **ROADMAP.md** — Milestones section: use same deadline classification (Confirmed/Target/Requested/At risk).
   - **RISKS.md** — schedule risk if deadline is aggressive or uncertain.
   - **DECISIONS.md** — only when the team explicitly commits/accepts a deadline.

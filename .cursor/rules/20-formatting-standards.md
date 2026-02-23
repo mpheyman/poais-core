@@ -15,3 +15,4 @@
   - Blockers
   - Risks
   - Metric Snapshot (only if real data; never invent)
+- **ROADMAP structure and milestones** — follow 26-roadmap.md.

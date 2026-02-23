@@ -12,6 +12,15 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.7] - 2026-02-22
+
+- ROADMAP: rule 26-roadmap (Milestones, Current Quarter, Next, Themes); fed by PLAN, EXECUTION, DECISIONS; stakeholder visibility.
+- ROADMAP templates and skeleton: Milestones table; dates rule and formatting rule updated.
+- Alignment and status skills: ROADMAP alignment check; Key dates (roadmap) and optional Roadmap snapshot in status drafts.
+- Docs: GETTING_STARTED, STANDARDS, status command updated for ROADMAP.
+
+---
+
 ## [0.1.6] - 2026-02-22
 
 - Meeting workflow: INPUTS = single source for all raw input (including meeting jottings); /distill-meeting refines and catalogues to MEETINGS/; /process on catalogued MEETINGS file updates artifacts.

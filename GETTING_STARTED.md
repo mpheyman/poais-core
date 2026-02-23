@@ -15,7 +15,7 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 | **STATUS** | Weekly snapshot for team/stakeholders; use `/status` to draft. |
 | **DISCOVERY** | Customer/operational insights, assumptions, open questions, hypotheses. |
 | **RISKS** | Known risks; update when scope or schedule risk emerges. |
-| **ROADMAP** | Current quarter, next, themes. |
+| **ROADMAP** | Milestones (key delivery dates), current quarter, next, themes. Fed by PLAN, EXECUTION, DECISIONS. For stakeholder visibility and status/email. |
 | **INPUTS/** | **Single source for all raw input** — notes, email, doc paste, and meeting jottings. Create a blank .md here, jot notes, then run `/process` (general input) or `/distill-meeting` (meeting notes). |
 | **MEETINGS/** | **Catalogued meeting records** — refined, formatted output of `/distill-meeting`. Run `/process` on a file here to extract key data and update artifacts. |
 | **FEATURES/** | Feature-level docs if you track them. |
@@ -57,7 +57,7 @@ This guide is for PMs who have finished [setup](README.md#quickstart) and need t
 - **Process** — Run `/process` on general input; for meetings, run `/distill-meeting` on the INPUTS file (refines and catalogues to MEETINGS), then `/process` on the MEETINGS file; review and approve proposed edits to DISCOVERY, PLAN, DECISIONS, RISKS, EXECUTION.
 - **Keep in sync** — Update CONTEXT, PLAN, DECISIONS, STATUS as reality changes (see [STANDARDS.md](STANDARDS.md): POAIS reflects reality).
 - **Align** — Run `/align product` periodically to catch drift.
-- **Communicate** — Run `/status product` (or `/status product YYYY-MM-DD`) to draft stakeholder updates and update STATUS.md.
+- **Communicate** — Run `/status product` (or `/status product YYYY-MM-DD`) to draft stakeholder updates and update STATUS.md. ROADMAP can be pasted into status emails or shared separately for alignment with stakeholders.
 
 ---
 

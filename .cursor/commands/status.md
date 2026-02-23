@@ -28,6 +28,7 @@ Delegates to the **status-composer** subagent.
 - **Stakeholder update** — clear draft (written to STATUS.md).
 - **Exec summary** — very concise draft.
 - **Files updated** — typically the product folder’s STATUS.md (e.g. `product/STATUS.md`).
+- When ROADMAP is present: Key dates (roadmap) in stakeholder/exec drafts; optional Roadmap snapshot for email.
 
 ## Guardrails
 
