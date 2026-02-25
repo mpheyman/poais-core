@@ -1,13 +1,12 @@
-# Initialize a product repo to use POAIS.
+# Initialize a product repo to use POAIS (portfolio layout).
 # Run from inside a product repo; or: irm <RAW_URL> | iex (set $env:POAIS_CORE_REPO_URL first if poais is missing)
-# Usage: .\poais-init.ps1 [-RepoUrl <POAIS_CORE_REPO_URL>]
-#        .\poais-init.ps1 -Layout Portfolio [-ProductNames @("product-a","product-b")]
+# Usage: .\poais-init.ps1 [-RepoUrl <POAIS_CORE_REPO_URL>] [-ProductNames @("product-a","product-b")]
+# Default product names: product-a, product-b.
 param(
     [string]$RepoUrl = "",
-    [ValidateSet("Single","portfolio","Portfolio")][string]$Layout = "Single",
     [string[]]$ProductNames = @()
 )
-if ($Layout -eq "portfolio") { $Layout = "Portfolio" }
+if ($ProductNames.Count -eq 0) { $ProductNames = @("product-a", "product-b") }
 $ErrorActionPreference = "Stop"
 
 Write-Host "=== POAIS init ==="
@@ -30,14 +29,8 @@ Write-Host ""
 if (-not $RepoUrl) { $RepoUrl = $env:POAIS_CORE_REPO_URL }
 
 $PoaisDir = "poais"
-if ($Layout -eq "Portfolio") {
-    $Skeleton = Join-Path $PoaisDir "bootstrap\portfolio-repo-skeleton"
-    if ($ProductNames.Count -eq 0) { $ProductNames = @("product-a", "product-b") }
-} else {
-    $Skeleton = Join-Path $PoaisDir "bootstrap\single-product-repo-skeleton"
-}
+$Skeleton = Join-Path $PoaisDir "bootstrap\portfolio-repo-skeleton"
 $Templates = Join-Path $PoaisDir "templates\product"
-$ProductDir = "product"
 $RequiredFiles = @("CONTEXT.md", "DISCOVERY.md", "PLAN.md", "EXECUTION.md", "DECISIONS.md", "RISKS.md", "ROADMAP.md", "STATUS.md")
 $RequiredDirs = @("INPUTS", "MEETINGS", "FEATURES", "IDEAS")
 
@@ -60,78 +53,42 @@ Write-Host "=== Syncing Cursor runtime ==="
 & "powershell" "-ExecutionPolicy" "Bypass" "-File" (Join-Path $PoaisDir "tools\sync-cursor-runtime.ps1")
 Write-Host ""
 
-if ($Layout -eq "Portfolio") {
-    if (-not (Test-Path -LiteralPath "products" -PathType Container) -or -not (Test-Path -LiteralPath "portfolio" -PathType Container)) {
-        Write-Host "=== Scaffolding portfolio workspace (safe copy) ==="
-        $skeletonFull = Join-Path $repoRoot $Skeleton
-        foreach ($item in Get-ChildItem -LiteralPath $skeletonFull) {
-            $dest = Join-Path $repoRoot $item.Name
-            if (Test-Path -LiteralPath $dest) { continue }
-            if ($item.PSIsContainer) {
-                Copy-Item -LiteralPath $item.FullName -Destination $dest -Recurse -Force
-            } else {
-                Copy-Item -LiteralPath $item.FullName -Destination $dest -Force
-            }
-        }
-        Write-Host "  Created products\ and portfolio\ from scaffold."
-        Write-Host ""
-    }
-    Write-Host "  Ensuring required dirs and files per product..."
-    foreach ($pname in $ProductNames) {
-        $prodPath = Join-Path "products" $pname
-        foreach ($d in $RequiredDirs) {
-            $dirPath = Join-Path $prodPath $d
-            if (-not (Test-Path -LiteralPath $dirPath -PathType Container)) {
-                New-Item -ItemType Directory -Path $dirPath -Force | Out-Null
-            }
-        }
-        foreach ($f in $RequiredFiles) {
-            $destFile = Join-Path $prodPath $f
-            $srcFile = Join-Path $repoRoot (Join-Path $Templates $f)
-            if (-not (Test-Path -LiteralPath $destFile -PathType Leaf)) {
-                if (Test-Path -LiteralPath $srcFile -PathType Leaf) {
-                    Copy-Item -LiteralPath $srcFile -Destination $destFile -Force
-                    Write-Host "  Added $prodPath\$f from template"
-                }
-            }
+if (-not (Test-Path -LiteralPath "products" -PathType Container) -or -not (Test-Path -LiteralPath "portfolio" -PathType Container)) {
+    Write-Host "=== Scaffolding portfolio workspace (safe copy) ==="
+    $skeletonFull = Join-Path $repoRoot $Skeleton
+    foreach ($item in Get-ChildItem -LiteralPath $skeletonFull) {
+        $dest = Join-Path $repoRoot $item.Name
+        if (Test-Path -LiteralPath $dest) { continue }
+        if ($item.PSIsContainer) {
+            Copy-Item -LiteralPath $item.FullName -Destination $dest -Recurse -Force
+        } else {
+            Copy-Item -LiteralPath $item.FullName -Destination $dest -Force
         }
     }
+    Write-Host "  Created products\ and portfolio\ from scaffold."
     Write-Host ""
-} else {
-    if (-not (Test-Path -LiteralPath $ProductDir -PathType Container)) {
-        Write-Host "=== Scaffolding product workspace (safe copy) ==="
-        $skeletonFull = Join-Path $repoRoot $Skeleton
-        foreach ($item in Get-ChildItem -LiteralPath $skeletonFull) {
-            $dest = Join-Path $repoRoot $item.Name
-            if (Test-Path -LiteralPath $dest) { continue }
-            if ($item.PSIsContainer) {
-                Copy-Item -LiteralPath $item.FullName -Destination $dest -Recurse -Force
-            } else {
-                Copy-Item -LiteralPath $item.FullName -Destination $dest -Force
-            }
-        }
-        Write-Host "  Created $ProductDir\ from scaffold."
-        Write-Host ""
-    }
-    Write-Host "  Ensuring required dirs and files..."
+}
+Write-Host "  Ensuring required dirs and files per product..."
+foreach ($pname in $ProductNames) {
+    $prodPath = Join-Path "products" $pname
     foreach ($d in $RequiredDirs) {
-        $dirPath = Join-Path $ProductDir $d
+        $dirPath = Join-Path $prodPath $d
         if (-not (Test-Path -LiteralPath $dirPath -PathType Container)) {
             New-Item -ItemType Directory -Path $dirPath -Force | Out-Null
         }
     }
     foreach ($f in $RequiredFiles) {
-        $destFile = Join-Path $ProductDir $f
+        $destFile = Join-Path $prodPath $f
         $srcFile = Join-Path $repoRoot (Join-Path $Templates $f)
         if (-not (Test-Path -LiteralPath $destFile -PathType Leaf)) {
             if (Test-Path -LiteralPath $srcFile -PathType Leaf) {
                 Copy-Item -LiteralPath $srcFile -Destination $destFile -Force
-                Write-Host "  Added $ProductDir\$f from template"
+                Write-Host "  Added $prodPath\$f from template"
             }
         }
     }
-    Write-Host ""
 }
+Write-Host ""
 
 $poaisCommit = ""
 $logOut = git log -1 --format=%H -- poais/ 2>&1
@@ -154,12 +111,8 @@ $lockContent = @{
     poais_core_commit = $poaisCommit
     cursor_runtime_synced_at = $now
     installed_at = $now
-}
-if ($Layout -eq "Portfolio") {
-    $lockContent.products = @($ProductNames | ForEach-Object { "products/$_" })
-    $lockContent.portfolio = "portfolio"
-} else {
-    $lockContent.workspace_root = "product"
+    products = @($ProductNames | ForEach-Object { "products/$_" })
+    portfolio = "portfolio"
 }
 if (Test-Path -LiteralPath $LockFile -PathType Leaf) {
     try {
@@ -179,12 +132,7 @@ Write-Host "=== SUCCESS: POAIS initialized ==="
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host "  1. Open this repo in Cursor."
-if ($Layout -eq "Portfolio") {
-    Write-Host "  2. Per product: create input e.g. products\<name>\INPUTS\${dateStr}-notes.md, run /process and /align products/<name>, /status products/<name>."
-    Write-Host "  3. Run /status portfolio to write portfolio/STATUS.md roll-up."
-} else {
-    Write-Host "  2. Create an input file, e.g. ${ProductDir}\INPUTS\${dateStr}-notes.md"
-    Write-Host "  3. Run: /process ${ProductDir}/INPUTS/<your-file>.md"
-}
+Write-Host "  2. Per product: create input e.g. products\<name>\INPUTS\${dateStr}-notes.md, run /process and /align products/<name>, /status products/<name>."
+Write-Host "  3. Run /status portfolio to write portfolio/STATUS.md roll-up."
 Write-Host ""
 exit 0

@@ -13,7 +13,7 @@ If you omit product names, init uses the default from this skeleton (`product-a`
 
 ## Layout
 
-- `products/product-a/`, `products/product-b/` — each has CONTEXT, PLAN, EXECUTION, DECISIONS, STATUS, DISCOVERY, RISKS, ROADMAP, INPUTS/, MEETINGS/, FEATURES/, IDEAS/.
+- `products/product-a/`, `products/product-b/` — each has CONTEXT, PLAN, EXECUTION, DECISIONS, STATUS, PRD (optional), DISCOVERY, RISKS, ROADMAP, INPUTS/, MEETINGS/, FEATURES/, IDEAS/.
 - `portfolio/PRIORITIES.md` — product priorities and themes.
 - `portfolio/STATUS.md` — roll-up written by `/status portfolio`.
 
@@ -24,4 +24,4 @@ If you omit product names, init uses the default from this skeleton (`product-a`
 - `/status portfolio` — aggregate status across all products; writes `portfolio/STATUS.md`.
 - `/process products/<name>/INPUTS/...`, `/distill-meeting products/<name>/INPUTS/...` — same as single-product, with product path.
 
-For guided setup (including portfolio), run **`/setup-poais`** in Cursor. See `poais/.cursor/commands/README.md` and `poais/GETTING_STARTED.md` for portfolio workflow.
+Adding POAIS to the repo is done via the CLI (see [README Setup](../../README.md#setup)). After POAIS is present, run **`/setup-poais`** in Cursor for guided next steps (including portfolio). See `poais/.cursor/commands/README.md` and `poais/GETTING_STARTED.md` for portfolio workflow.

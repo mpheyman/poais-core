@@ -8,7 +8,7 @@ Produce the **initial idea document** for capture in Cursor. The document has a 
 
 - **date** — Capture date (YYYY-MM-DD); typically today.
 - **slug** — Short name for the idea (e.g. `pricing-hypothesis`, `auth-ux`).
-- **product path** — Product folder (e.g. `product` or `products/widget`).
+- **product path** — Product folder (e.g. `products/<name>`).
 
 ## Standard idea document template
 

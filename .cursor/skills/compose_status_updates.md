@@ -6,7 +6,7 @@ Generate three levels of status copy from POAIS artifacts: team (detailed), stak
 
 ## Inputs
 
-- **Single product:** EXECUTION.md, DECISIONS.md, RISKS.md (current focus, progress, decisions, risks). Optional: ROADMAP.md.
+- **Product:** EXECUTION.md, DECISIONS.md, RISKS.md (current focus, progress, decisions, risks) from one product path. Optional: ROADMAP.md.
 - **Portfolio roll-up:** For each product (from POAIS_LOCK `products`), EXECUTION, DECISIONS, RISKS (and optional ROADMAP). Optional: portfolio/PRIORITIES.md. Output is one combined draft aggregating across products.
 
 ## Output format

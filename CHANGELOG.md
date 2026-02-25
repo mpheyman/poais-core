@@ -12,6 +12,16 @@ Versioning follows [Semantic Versioning](https://semver.org/). The canonical ver
 
 ---
 
+## [0.1.10] - 2026-02-24
+
+- **PRD (Product Requirements Document):** PRD.md added as optional product artifact and single source of truth for development handoff. STANDARDS and GETTING_STARTED updated; bootstrap portfolio skeleton includes PRD.md stub (Summary/Goal, Scope, Users, Functional and non-functional requirements, Constraints, References). Rule 05: PRD is the artifact engineering uses for requirements; redirect build requests to update PRD. Align: alignment_check and alignment-checker include optional PRD (scope vs PLAN, EXECUTION vs PRD). Process: input-processor proposes PRD updates when input implies new or changed requirements.
+- /process chunked processing: input files can be run repeatedly; only unprocessed content is processed each run. A **Processed (POAIS)** block (heading + table at end of file) records what was processed and when (line ranges, optional section names). PM can keep a running input file, add to it, and process in chunks; to re-process the whole file, clear the block and run /process again. Command spec, input-processor subagent, summarize_input skill, rule 27, commands README, .cursor README, and GETTING_STARTED updated.
+- Portfolio-only default: every new init creates `products/` and `portfolio/`; no single-product option. Init scripts (poais-init.sh, poais-init.ps1) and /setup-poais always use portfolio layout; product names default to product-a, product-b.
+- Single-product skeleton moved to archive/single-product-repo-skeleton/; bootstrap and docs reference portfolio scaffold only.
+- Upgrade and doctor preserve existing POAIS_LOCK (workspace_root, products, portfolio) for backward compatibility; new lock from upgrade uses portfolio default.
+
+---
+
 ## [0.1.9] - 2026-02-22
 
 - Onboarding simplified: install/upgrade in README (agent /setup-poais and CLI first); GETTING_STARTED shortened; INSTALL_SUBTREE.md removed.

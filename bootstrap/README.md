@@ -1,12 +1,11 @@
 # Bootstrap
 
-Scaffolds for initializing a product repo. The init scripts copy from here when creating `product/` (single-product) or `products/<name>/` and `portfolio/` (portfolio).
+Scaffold for initializing a product repo. The init scripts copy from here when creating `products/<name>/` and `portfolio/`.
 
-## Skeletons
+## Skeleton
 
-| Skeleton | Use case | Layout |
-|----------|----------|--------|
-| [single-product-repo-skeleton/](single-product-repo-skeleton/) | One product per repo | `product/` with CONTEXT, PLAN, DECISIONS, STATUS, DISCOVERY, RISKS, ROADMAP, EXECUTION, INPUTS/, MEETINGS/, FEATURES/, IDEAS/. |
-| [portfolio-repo-skeleton/](portfolio-repo-skeleton/) | Multiple products per repo | `products/product-a/`, `products/product-b/` (each with same artifact set), plus `portfolio/` (PRIORITIES.md, STATUS.md). |
+| Skeleton | Layout |
+|----------|--------|
+| [portfolio-repo-skeleton/](portfolio-repo-skeleton/) | `products/product-a/`, `products/product-b/` (each with CONTEXT, PLAN, DECISIONS, STATUS, DISCOVERY, RISKS, ROADMAP, EXECUTION, INPUTS/, MEETINGS/, FEATURES/, IDEAS/), plus `portfolio/` (PRIORITIES.md, STATUS.md). |
 
-Init uses the single-product skeleton by default. For portfolio, run init with `--layout=portfolio [product-a product-b]` (or `-Layout Portfolio -ProductNames product-a,product-b` on Windows). See [README Quickstart](../README.md#quickstart) and [GETTING_STARTED](../GETTING_STARTED.md#portfolio-multiple-products).
+Init always uses this scaffold. Optional product names: `bash poais-init.sh [REPO_URL] name1 name2` or `-ProductNames name1,name2` on Windows; default is product-a, product-b. See [README Setup](../README.md#setup) and [GETTING_STARTED](../GETTING_STARTED.md).

@@ -8,8 +8,9 @@ User-facing Cursor commands. Each command has a spec in `commands/<name>.md` and
 
 | Command | Spec | Delegates to | Purpose |
 |---------|------|--------------|---------|
-| `/setup-poais` | [commands/setup-poais.md](commands/setup-poais.md) | — | Conversational POAIS setup: layout, product names, repo URL; runs init; "what's next" menu. |
-| `/process` | [commands/process.md](commands/process.md) | input-processor | Process messy input into summary and artifact updates. |
+| `/setup-poais` | [commands/setup-poais.md](commands/setup-poais.md) | — | Conversational POAIS setup: product names, repo URL; runs init (portfolio layout); "what's next" menu. |
+| `/upgrade-poais` | [commands/upgrade-poais.md](commands/upgrade-poais.md) | — | Upgrade vendored poais-core: pull latest subtree, re-sync `.cursor/`. |
+| `/process` | [commands/process.md](commands/process.md) | input-processor | Process messy input into summary and artifact updates; tracks processed sections in a Processed (POAIS) block for chunked/running input files. |
 | `/distill-meeting` | [commands/distill-meeting.md](commands/distill-meeting.md) | meeting-distiller | Refine raw meeting notes from INPUTS; catalogue to MEETINGS/. |
 | `/create-meeting-notes` | [commands/create-meeting-notes.md](commands/create-meeting-notes.md) | meeting-notes-creator | Create a MEETINGS file for live capture in Cursor. |
 | `/capture-idea` | [commands/capture-idea.md](commands/capture-idea.md) | idea-capture | Create an IDEAS file for idea capture. |
@@ -40,11 +41,11 @@ Subagents are invoked by commands. They use skills and produce structured output
 
 | Subagent | Used by | Purpose |
 |----------|---------|---------|
-| [input-processor](subagents/input-processor.md) | /process | Process messy input → summary, decisions, risks, proposed artifact updates. |
+| [input-processor](subagents/input-processor.md) | /process | Process messy input (or unprocessed chunk) → summary, decisions, risks, proposed artifact updates; parent updates Processed (POAIS) block. |
 | [meeting-distiller](subagents/meeting-distiller.md) | /distill-meeting | Raw meeting notes → refined meeting record; catalogue to MEETINGS/. |
 | [meeting-notes-creator](subagents/meeting-notes-creator.md) | /create-meeting-notes | Produce initial meeting-notes document for live capture. |
 | [idea-capture](subagents/idea-capture.md) | /capture-idea | Produce initial idea document for IDEAS/. |
-| [alignment-checker](subagents/alignment-checker.md) | /align | Compare artifacts; Alignment Report and suggested edits. |
+| [alignment-checker](subagents/alignment-checker.md) | /align | Compare artifacts (incl. optional PRD); Alignment Report and suggested edits. |
 | [status-composer](subagents/status-composer.md) | /status | Compose status drafts; update STATUS.md (or portfolio roll-up). |
 
 ## Skills
@@ -56,5 +57,5 @@ Reusable capabilities used by subagents. Each skill has a spec in `skills/<name>
 | [summarize_input](skills/summarize_input.md) | input-processor, meeting-distiller | High-signal summary, decisions, risks, scope changes, feature ideas, open questions. |
 | [extract_decisions](skills/extract_decisions.md) | input-processor, meeting-distiller | Formatted DECISIONS entries; explicit vs implied. |
 | [update_plan_execution](skills/update_plan_execution.md) | input-processor | Suggested edits to PLAN.md and EXECUTION.md. |
-| [alignment_check](skills/alignment_check.md) | alignment-checker | Compare CONTEXT, PLAN, EXECUTION, DECISIONS; drift report. |
+| [alignment_check](skills/alignment_check.md) | alignment-checker | Compare CONTEXT, PLAN, EXECUTION, DECISIONS (optional PRD); drift report. |
 | [compose_status_updates](skills/compose_status_updates.md) | status-composer | Status drafts and STATUS.md content. |

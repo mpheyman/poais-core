@@ -22,7 +22,7 @@ Produce a structured summary with:
 
 ## Steps
 
-1. Read the full input.
+1. Read the full input. If the input is explicitly noted as a portion of a larger file (e.g. an unprocessed chunk from a running input file), treat it as standalone for extraction; do not assume context from other parts of the file.
 2. Extract bullets for the high-signal summary.
 3. List explicit decisions with a short source reference.
 4. List implied decisions and mark every one as “Needs confirmation”.

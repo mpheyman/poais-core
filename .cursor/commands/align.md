@@ -8,7 +8,7 @@
 
 ## Expected arguments
 
-- **product-folder** — Path to the product directory (e.g. `product` or `product/`). Must contain CONTEXT.md, PLAN.md, EXECUTION.md, DECISIONS.md. Must exist; command fails clearly if path does not exist.
+- **product-folder** — Path to the product directory (e.g. `products/<name>`). Must contain CONTEXT.md, PLAN.md, EXECUTION.md, DECISIONS.md. Must exist; command fails clearly if path does not exist. When PRD.md is present, alignment includes PRD (scope vs PLAN, EXECUTION vs PRD requirements).
 
 ## Delegation
 
@@ -17,7 +17,7 @@ Delegates to the **alignment-checker** subagent.
 ## Behavior
 
 1. Resolve product-folder path (relative to repo root or cwd).
-2. Run the alignment-checker subagent on that product’s artifacts (and optionally ROADMAP, portfolio/PRIORITIES).
+2. Run the alignment-checker subagent on that product’s artifacts (and optionally PRD, ROADMAP, portfolio/PRIORITIES).
 3. Subagent produces an Alignment Report and proposed edits.
 4. Auto-apply only low-risk consistency fixes (e.g. link, heading). All other fixes are suggested only.
 5. Return the report, suggested edits, and list of files updated (if any).

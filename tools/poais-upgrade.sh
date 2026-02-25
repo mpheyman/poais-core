@@ -65,7 +65,17 @@ if [[ -f "$LOCK_FILE" ]]; then
       | sed '/"upgraded_at"/d' | sed "s/\"workspace_root\"/\"upgraded_at\": \"${NOW}\", \"workspace_root\"/" > "$TMP" && mv "$TMP" "$LOCK_FILE"
   fi
 else
-  cat <<EOF > "$LOCK_FILE"
+  # New lock (rare): use portfolio default; do not add workspace_root
+  if command -v jq >/dev/null 2>&1; then
+    jq -n \
+      --arg url "${POAIS_CORE_REPO_URL}" \
+      --arg commit "${POAIS_COMMIT}" \
+      --arg synced "$NOW" \
+      --arg upgraded "$NOW" \
+      '{poais_core_repo_url: $url, poais_prefix: "poais", poais_branch: "main", poais_core_commit: $commit, cursor_runtime_synced_at: $synced, upgraded_at: $upgraded, installed_at: $synced, products: ["products/product-a", "products/product-b"], portfolio: "portfolio"}' \
+      > "$LOCK_FILE"
+  else
+    cat <<EOF > "$LOCK_FILE"
 {
   "poais_core_repo_url": "${POAIS_CORE_REPO_URL}",
   "poais_prefix": "poais",
@@ -73,16 +83,19 @@ else
   "poais_core_commit": "${POAIS_COMMIT}",
   "cursor_runtime_synced_at": "${NOW}",
   "upgraded_at": "${NOW}",
-  "workspace_root": "product"
+  "installed_at": "${NOW}",
+  "products": ["products/product-a", "products/product-b"],
+  "portfolio": "portfolio"
 }
 EOF
+  fi
 fi
-# Preserve products and portfolio from existing lock (jq update above keeps all keys; sed path does not remove them)
+# When lock existed, jq update above preserves all keys (products, portfolio, workspace_root); sed path does not remove them
 
 echo ""
 echo "SUCCESS: poais-core upgraded."
 echo "  poais-core commit (this repo): ${POAIS_COMMIT:-unknown}"
 echo ""
-echo "Next: run /align product (or /align products/<name> for portfolio) in Cursor to check artifact alignment after upgrades."
+echo "Next: run /align products/<name> (or /status portfolio) in Cursor to check artifact alignment after upgrades."
 echo ""
 exit 0

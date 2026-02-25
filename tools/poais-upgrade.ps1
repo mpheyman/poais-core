@@ -73,8 +73,10 @@ if (Test-Path -LiteralPath $LockFile -PathType Leaf) {
         }
     } catch {}
 }
-if (-not $lockContent.workspace_root -and -not $lockContent.products) {
-    $lockContent.workspace_root = "product"
+# When no existing lock, default to portfolio layout; otherwise preserve existing workspace_root from lock
+if (-not $lockContent.products -and -not $lockContent.workspace_root) {
+    $lockContent.products = @("products/product-a", "products/product-b")
+    $lockContent.portfolio = "portfolio"
 }
 $lockContent | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath $LockFile -Encoding utf8 -NoNewline:$false
 
@@ -82,6 +84,6 @@ Write-Host ""
 Write-Host "SUCCESS: poais-core upgraded."
 Write-Host "  poais-core commit (this repo): $poaisCommit"
 Write-Host ""
-Write-Host "Next: run /align product (or /align products/<name> for portfolio) in Cursor to check artifact alignment after upgrades."
+Write-Host "Next: run /align products/<name> (or /status portfolio) in Cursor to check artifact alignment after upgrades."
 Write-Host ""
 exit 0

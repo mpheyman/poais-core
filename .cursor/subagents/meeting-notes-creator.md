@@ -8,7 +8,7 @@ Produce the **initial meeting-notes document** for live capture in Cursor. The d
 
 - **date** — Meeting date (YYYY-MM-DD); typically today.
 - **slug** — Short name for the meeting (e.g. `sprint-review`, `standup`).
-- **product path** — Product folder (e.g. `product` or `products/widget`).
+- **product path** — Product folder (e.g. `products/<name>`).
 
 ## Standard meeting document template
 
